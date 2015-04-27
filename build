@@ -1,0 +1,5 @@
+npm install
+cd pduGenerator
+python pduParser.py
+cd ..
+

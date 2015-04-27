@@ -1,0 +1,36 @@
+{
+    "name":"ElectromagneticEmissionPdu",
+    "versionMap": "4:v6, 5:v6, 6:v6, 7:v7",
+    "versions": [
+        {"version": "v6", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"padding", "type":"Uint16"},
+            {"name":"emittingEntityId", "type":"EntityId"},
+            {"name":"eventId", "type":"EventId"},
+            {"name":"stateUpdateIndicator", "type":"Uint8"},
+            {"name":"numberOfSystems", "type":"Uint8"},
+            {"name":"padding1", "type":"Uint16"},
+            {"name":"systems", "type":"ElectromagneticEmissionSystemDataList", "lengthField": "numberOfSystems"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"pduStatus", "type":"Uint8"},
+            {"name":"padding", "type":"Uint8"},
+            {"name":"emittingEntityId", "type":"EntityId"},
+            {"name":"eventId", "type":"EventId"},
+            {"name":"stateUpdateIndicator", "type":"Uint8"},
+            {"name":"numberOfSystems", "type":"Uint8"},
+            {"name":"padding1", "type":"Uint16"},
+            {"name":"systems", "type":"ElectromagneticEmissionSystemDataList", "lengthField": "numberOfSystems"}
+        ]}
+]}

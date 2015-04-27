@@ -1,0 +1,36 @@
+{
+    "name":"ResupplyOfferPdu",
+    "versionMap": "4:v6, 5:v6, 6:v6, 7:v7",
+    "versions": [
+        {"version": "v6", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"padding", "type":"Uint16"},
+            {"name":"receivingEntityId", "type":"EntityId"},
+            {"name":"supplyingEntityId", "type":"EntityId"},
+            {"name":"numberOfSupplyTypes", "type":"Uint8"},
+            {"name":"padding1", "type":"Uint8"},
+            {"name":"padding2", "type":"Uint16"},
+            {"name":"supplies", "type":"SupplyQuantityList", "lengthField": "numberOfSupplyTypes"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"pduStatus", "type":"Uint8"},
+            {"name":"padding", "type":"Uint8"},
+            {"name":"receivingEntityId", "type":"EntityId"},
+            {"name":"supplyingEntityId", "type":"EntityId"},
+            {"name":"numberOfSupplyTypes", "type":"Uint8"},
+            {"name":"padding1", "type":"Uint8"},
+            {"name":"padding2", "type":"Uint16"},
+            {"name":"supplies", "type":"SupplyQuantityList", "lengthField": "numberOfSupplyTypes"}
+        ]}
+]}

@@ -1,0 +1,40 @@
+{
+    "name":"EntityStateUpdatePdu",
+    "versionMap": "4:v6, 5:v6, 6:v6, 7:v7",
+    "versions": [
+        {"version": "v6", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"padding", "type":"Uint16"},
+            {"name":"entityId", "type":"EntityId"},
+            {"name":"padding1", "type":"Uint8"},
+            {"name":"numberOfArticulationParameters", "type":"Uint8"},
+            {"name":"entityLinearVelocity", "type":"LinearVelocityVector"},
+            {"name":"entityLocation", "type":"WorldCoordinates"},
+            {"name":"entityOrientation", "type":"Orientation"},
+            {"name":"entityAppearance", "type":"Uint32"},
+            {"name":"articulationParameters", "type":"VariableParameterList", "lengthField": "numberOfArticulationParameters"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"pduStatus", "type":"Uint8"},
+            {"name":"padding", "type":"Uint8"},
+            {"name":"entityId", "type":"EntityId"},
+            {"name":"padding1", "type":"Uint8"},
+            {"name":"numberOfVariableParameters", "type":"Uint8"},
+            {"name":"entityLinearVelocity", "type":"LinearVelocityVector"},
+            {"name":"entityLocation", "type":"WorldCoordinates"},
+            {"name":"entityOrientation", "type":"Orientation"},
+            {"name":"entityAppearance", "type":"Uint32"},
+            {"name":"variableParameters", "type":"VariableParameterList", "lengthField": "numberOfVariableParameters"}
+        ]}
+]}

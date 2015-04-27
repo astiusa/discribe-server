@@ -1,0 +1,422 @@
+[
+    {"name":"EmitterSystem", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"emitterName", "type":"Uint16"},
+            {"name":"emitterFunction", "type":"Uint8"},
+            {"name":"emitterIdNumber", "type":"Uint8"}
+        ]}
+    ]},
+    {"name":"EntityId", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"site", "type":"Uint16"},
+            {"name":"application", "type":"Uint16"},
+            {"name":"entity", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"EntityType", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"entityKind", "type":"Uint8"},
+            {"name":"domain", "type":"Uint8"},
+            {"name":"country", "type":"Uint16"},
+            {"name":"category", "type":"Uint8"},
+            {"name":"subcategory", "type":"Uint8"},
+            {"name":"spec", "type":"Uint8"},
+            {"name":"extra", "type":"Uint8"}
+        ]}
+    ]},
+    {"name":"FundamentalParameterData", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"frequency", "type":"Float32"},
+            {"name":"frequencyRange", "type":"Float32"},
+            {"name":"effectiveRadiatedPower", "type":"Float32"},
+            {"name":"pulseRepetitionFrequency", "type":"Float32"},
+            {"name":"pulseWidth", "type":"Float32"},
+            {"name":"beamAzimuthCenter", "type":"Float32"},
+            {"name":"beamAzimuthSweep", "type":"Float32"},
+            {"name":"beamElevationCenter", "type":"Float32"},
+            {"name":"beamElevationSweep", "type":"Float32"},
+            {"name":"beamSweepSync", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"EntityCoordinateVector", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"x", "type":"Float32"},
+            {"name":"y", "type":"Float32"},
+            {"name":"z", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"LinearVelocityVector", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"x", "type":"Float32"},
+            {"name":"y", "type":"Float32"},
+            {"name":"z", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"LinearAccelerationVector", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"x", "type":"Float32"},
+            {"name":"y", "type":"Float32"},
+            {"name":"z", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"AngularVelocityVector", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"x", "type":"Float32"},
+            {"name":"y", "type":"Float32"},
+            {"name":"z", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"WorldCoordinates", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"x", "type":"Float64"},
+            {"name":"y", "type":"Float64"},
+            {"name":"z", "type":"Float64"}
+        ]}
+    ]},
+    {"name":"ArticulatedPart", "versionMap": "4:v6, 5:v6, 6:v6, 7:v7", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"recordType", "type":"Uint8"},
+            {"name":"changeIndicator", "type":"Uint8"},
+            {"name":"partAttachedTo", "type":"Uint16"},
+            {"name":"parameterType", "type":"Uint32"},
+            {"name":"parameterValue", "type":"Long"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"recordType", "type":"Uint8"},
+            {"name":"changeIndicator", "type":"Uint8"},
+            {"name":"partAttachedTo", "type":"Uint16"},
+            {"name":"parameterType", "type":"Uint32"},
+            {"name":"parameterValue", "type":"Float32"},
+            {"name":"padding", "type":"Uint32"}
+        ]}
+    ]},
+    {"name":"AttachedPart", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"recordType", "type":"Uint8"},
+            {"name":"attachedIndicator", "type":"Uint8"},
+            {"name":"partAttachedTo", "type":"Uint16"},
+            {"name":"parameterType", "type":"Uint32"},
+            {"name":"parameterValue", "type":"Long"}
+        ]}
+    ]},
+    {"name":"BeamData", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"beamAzimuthCenter", "type":"Float32"},
+            {"name":"beamAzimuthSweep", "type":"Float32"},
+            {"name":"beamElevationCenter", "type":"Float32"},
+            {"name":"beamElevationSweep", "type":"Float32"},
+            {"name":"beamSweepSync", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"BurstDescriptor", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"munition", "type":"EntityType"},
+            {"name":"warhead", "type":"Uint16"},
+            {"name":"fuse", "type":"Uint16"},
+            {"name":"quantity", "type":"Uint16"},
+            {"name":"rate", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"ClockTime", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"hour", "type":"Uint32"},
+            {"name":"timePastHour", "type":"Uint32"}
+        ]}
+    ]},
+    {"name":"DeadReckoningParameters", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"deadReckoningAlgorithm", "type":"Uint8"},
+            {"name":"otherParameters", "type":"Uint8Array", "length":15},
+            {"name":"entityLinearAcceleration", "type":"LinearAccelerationVector"},
+            {"name":"entityAngularVelocity", "type":"AngularVelocityVector"}
+        ]}
+    ]},
+    {"name":"DataRecord", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"recordType", "type":"Uint32"},
+            {"name":"recordLength", "type":"Uint16"},
+            {"name":"recordValues", "type":"DataRecordValues", "lengthField":"recordLength"}
+        ]}
+    ]},
+    {"name":"MunitionsType", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"munitionType", "type":"EntityType"},
+            {"name":"warhead", "type":"Uint16"},
+            {"name":"fuse", "type":"Uint16"},
+            {"name":"quantity", "type":"Uint16"},
+            {"name":"rate", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"ExpendableType", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"expendableType", "type":"EntityType"},
+            {"name":"padding", "type":"Long"}
+        ]}
+    ]},
+    {"name":"ExplodingObject", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"explodingObject", "type":"EntityType"},
+            {"name":"explosiveMaterial", "type":"Uint16"},
+            {"name":"padding", "type":"Uint16"},
+            {"name":"explosiveForce", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"ElectromagneticEmissionBeamData", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"beamDataLength", "type":"Uint8"},
+            {"name":"beamIdNumber", "type":"Uint8"},
+            {"name":"beamParameterIndex", "type":"Uint16"},
+            {"name":"fundamentalParameterData", "type":"FundamentalParameterData"},
+            {"name":"beamFunction", "type":"Uint8"},
+            {"name":"numberOfTrackJamTargets", "type":"Uint8"},
+            {"name":"highDensityTrackJam", "type":"Uint8"},
+            {"name":"padding", "type":"Uint8"},
+            {"name":"jammingModeSequence", "type":"Int32"},
+            {"name":"trackJamTargets", "type":"TrackJamTargetList", "lengthField":"numberOfTrackJamTargets"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"beamDataLength", "type":"Uint8"},
+            {"name":"beamIdNumber", "type":"Uint8"},
+            {"name":"beamParameterIndex", "type":"Uint16"},
+            {"name":"fundamentalParameterData", "type":"FundamentalParameterData"},
+            {"name":"beamFunction", "type":"Uint8"},
+            {"name":"numberOfTrackJamTargets", "type":"Uint8"},
+            {"name":"highDensityTrackJam", "type":"Uint8"},
+
+            {"name":"beamStatus", "type":"Uint8"},
+            {"name":"kind", "type":"Uint8"},
+            {"name":"category", "type":"Uint8"},
+            {"name":"subcategory", "type":"Uint8"},
+            {"name":"specific", "type":"Uint8"},
+
+            {"name":"siteNumber", "type":"Uint16"},
+            {"name":"applicationNumber", "type":"Uint16"},
+            {"name":"entityNumber", "type":"Uint16"},
+            {"name":"emitterNumber", "type":"Uint16"},
+            {"name":"beamNumber", "type":"Uint16"},
+            {"name":"trackJamTargets", "type":"TrackJamTargetList", "lengthField":"numberOfTrackJamTargets"}
+         ]}
+    ]},
+    {"name":"ElectromagneticEmissionSystemData", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"systemDataLength", "type":"Uint8"},
+            {"name":"numberOfBeams", "type":"Uint8"},
+            {"name":"padding", "type":"Uint16"},
+            {"name":"emitterSystem", "type":"EmitterSystem"},
+            {"name":"location", "type":"EntityCoordinateVector"},
+            {"name":"beamDataRecords", "type":"ElectromagneticEmissionBeamDataList", "lengthField":"numberOfBeams"}
+        ]}
+    ]},
+    {"name":"EventId", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"site", "type":"Uint16"},
+            {"name":"application", "type":"Uint16"},
+            {"name":"eventNumber", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"FixedDatum", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"fixedDatumId", "type":"Uint32"},
+            {"name":"fixedDatumValue", "type":"Uint32"}
+        ]}
+    ]},
+    {"name":"IffFundamentalParameterData", "versionMap": "4:v6, 5:v6, 6:v6, 7:v7", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"erp", "type":"Float32"},
+            {"name":"frequency", "type":"Float32"},
+            {"name":"pgrf", "type":"Float32"},
+            {"name":"pulseWidth", "type":"Float32"},
+            {"name":"burstLength", "type":"Int32"},
+            {"name":"applicableModes", "type":"Uint8"},
+            {"name":"padding1", "type":"Uint8"},
+            {"name":"padding2", "type":"Uint16"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"erp", "type":"Float32"},
+            {"name":"frequency", "type":"Float32"},
+            {"name":"pgrf", "type":"Float32"},
+            {"name":"pulseWidth", "type":"Float32"},
+            {"name":"burstLength", "type":"Int32"},
+            {"name":"applicableModes", "type":"Uint8"},
+            {"name":"systemSpecificData1", "type":"Uint8"},
+            {"name":"systemSpecificData2", "type":"Uint8"},
+            {"name":"systemSpecificData3", "type":"Uint8"}
+        ]}
+    ]},
+    {"name":"HaveQuickVtp", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"recordType", "type":"Uint32"},
+            {"name":"recordLength", "type":"Uint16"},
+            {"name":"padding1", "type":"Uint16"},
+            {"name":"netId", "type":"Uint16"},
+            {"name":"todTransmitIndicator", "type":"Uint8"},
+            {"name":"padding2", "type":"Uint8"},
+            {"name":"todDelta", "type":"Uint32"},
+            {"name":"wod1", "type":"Uint32"},
+            {"name":"wod2", "type":"Uint32"},
+            {"name":"wod3", "type":"Uint32"},
+            {"name":"wod4", "type":"Uint32"},
+            {"name":"wod5", "type":"Uint32"},
+            {"name":"wod6", "type":"Uint32"}
+        ]}
+    ]},
+    {"name":"LayerHeader", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"layerNumber", "type":"Uint8"},
+            {"name":"layerSpecificInformation", "type":"Uint8"},
+            {"name":"layerLength", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"IffAtcNavAidsLayer2", "versionMap": "4:v6, 5:v6, 6:v6, 7:v7", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"layerHeader", "type":"LayerHeader"},
+            {"name":"beamData", "type":"BeamData"},
+            {"name":"Parameter1", "type":"Uint8"},
+            {"name":"Parameter2", "type":"Uint8"},
+            {"name":"numberOfFundamentalParameters", "type":"Uint16"},
+            {"name":"fundamentalParameters", "type":"FundamentalParameterDataList", "lengthField": "numberOfFundamentalParameters"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"layerHeader", "type":"LayerHeader"},
+            {"name":"beamData", "type":"BeamData"},
+            {"name":"operationalParameter1", "type":"Uint8"},
+            {"name":"operationalParameter2", "type":"Uint8"},
+            {"name":"numberOfIffFundamentalParameters", "type":"Uint16"},
+            {"name":"IffFundamentalParameters", "type":"IffFundamentalParameterDataList", "lengthField": "numberOfIffFundamentalParameters"}
+        ]}
+    ]},
+    {"name":"IffFundamentalOperationalData", "versionMap": "4:v6, 5:v6, 6:v6, 7:v7", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"systemStatus", "type":"Uint8"},
+            {"name":"alternateParameter4", "type":"Uint8"},
+            {"name":"informationLayers", "type":"Uint8"},
+            {"name":"modifier", "type":"Uint8"},
+            {"name":"parameter1", "type":"Uint16"},
+            {"name":"parameter2", "type":"Uint16"},
+            {"name":"parameter3", "type":"Uint16"},
+            {"name":"parameter4", "type":"Uint16"},
+            {"name":"parameter5", "type":"Uint16"},
+            {"name":"parameter6", "type":"Uint16"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"systemStatus", "type":"Uint8"},
+            {"name":"dataField1", "type":"Uint8"},
+            {"name":"informationLayers", "type":"Uint8"},
+            {"name":"dataField2", "type":"Uint8"},
+            {"name":"parameter1", "type":"Uint16"},
+            {"name":"parameter2", "type":"Uint16"},
+            {"name":"parameter3", "type":"Uint16"},
+            {"name":"parameter4", "type":"Uint16"},
+            {"name":"parameter5", "type":"Uint16"},
+            {"name":"parameter6", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"HaveQuickMp", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"netId", "type":"Uint16"},
+            {"name":"mwodIndex", "type":"Uint16"},
+            {"name":"reserved1", "type":"Uint16"},
+            {"name":"reserved2", "type":"Uint8"},
+            {"name":"reserved3", "type":"Uint8"},
+            {"name":"tod", "type":"Uint32"},
+            {"name":"padding", "type":"Uint32"}
+        ]}
+    ]},
+    {"name":"SincgarsMp", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"fhNetId", "type":"Uint16"},
+            {"name":"hopSetId", "type":"Uint16"},
+            {"name":"lockoutSetId", "type":"Uint16"},
+            {"name":"startOdMessage", "type":"Uint8"},
+            {"name":"clearChannel", "type":"Uint8"},
+            {"name":"fhSyncTimeOffset", "type":"Uint32"},
+            {"name":"transmissionSecurityKey", "type":"Uint16"},
+            {"name":"padding", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"Marking", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"characterSet", "type":"Uint8"},
+            {"name":"characters", "type":"CharArray", "length":11}
+        ]}
+    ]},
+    {"name":"ModulationType", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"spreadSpectrum", "type":"Uint16"},
+            {"name":"major", "type":"Uint16"},
+            {"name":"detail", "type":"Uint16"},
+            {"name":"system", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"Orientation", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"psi", "type":"Float32"},
+            {"name":"theta", "type":"Float32"},
+            {"name":"phi", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"RadioEntityType", "versionMap": "4:v4, 5:v4, 6:v6, 7:v6", "versions":[
+        {"version": "v4", "fields":[
+            {"name":"entityKind", "type":"Uint8"},
+            {"name":"domain", "type":"Uint8"},
+            {"name":"country", "type":"Uint16"},
+            {"name":"category", "type":"Uint8"},
+            {"name":"subcategory", "type":"Uint8"},
+            {"name":"specific", "type":"Uint8"},
+            {"name":"extra", "type":"Uint8"}
+        ]},
+        {"version": "v6", "fields":[
+            {"name":"entityKind", "type":"Uint8"},
+            {"name":"domain", "type":"Uint8"},
+            {"name":"country", "type":"Uint16"},
+            {"name":"category", "type":"Uint8"},
+            {"name":"nomenclatureVersion", "type":"Uint8"},
+            {"name":"nomenclature", "type":"Uint16"}
+        ]}
+    ]},
+    {"name":"RecordSet", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"recordId", "type":"Uint32"},
+            {"name":"recordSetSerialNumber", "type":"Uint32"},
+            {"name":"padding", "type":"Uint32"},
+            {"name":"recordLength", "type":"Uint16"},
+            {"name":"recordCount", "type":"Uint16"},
+            {"name":"recordValues", "type":"RecordSetValues", "lengthField":"recordCount", "sizeField":"recordLength"}
+        ]}
+    ]},
+    {"name":"SupplyQuantity", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"supplyType", "type":"EntityType"},
+            {"name":"quantity", "type":"Float32"}
+        ]}
+    ]},
+    {"name":"SystemId", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"systemType", "type":"Uint16"},
+            {"name":"systemName", "type":"Uint16"},
+            {"name":"systemMode", "type":"Uint8"},
+            {"name":"changeOptions", "type":"Uint8"}
+        ]}
+    ]},
+    {"name":"TrackJamTarget", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"trackJam", "type":"EntityId"},
+            {"name":"emitterId", "type":"Uint8"},
+            {"name":"beamId", "type":"Uint8"}
+        ]}
+    ]},
+    {"name":"VariableDatum", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"variableDatumId", "type":"Uint32"},
+            {"name":"variableDatumLength", "type":"Uint32"},
+            {"name":"variableDatumValue", "type":"VariableDatumValue", "lengthField":"variableDatumLength"}
+        ]}
+    ]},
+    {"name":"UnknownVtp", "versionMap": "4:v6, 5:v6, 6:v6, 7:v6", "versions":[
+        {"version": "v6", "fields":[
+            {"name":"recordType", "type":"Uint32"},
+            {"name":"recordLength", "type":"Uint16"},
+            {"name":"data", "type":"Uint8Array", "length":40}
+        ]}
+    ]}
+]

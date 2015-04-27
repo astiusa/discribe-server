@@ -1,0 +1,4 @@
+node_modules
+lib/dis/*
+lib/disSupporting/*
+data/recordings/*

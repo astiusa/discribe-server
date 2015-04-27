@@ -1,0 +1,38 @@
+{
+    "name":"ReceiverPdu",
+    "versionMap": "4:v6, 5:v6, 6:v6, 7:v7",
+    "versions": [
+        {"version": "v6", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"padding", "type":"Uint16"},
+            {"name":"entityId", "type":"EntityId"},
+            {"name":"radioId", "type":"Uint16"},
+            {"name":"receiverState", "type":"Uint16"},
+            {"name":"padding1", "type":"Uint16"},
+            {"name":"receivedPower", "type":"Float32"},
+            {"name":"transmitterEntityId", "type":"EntityId"},
+            {"name":"transmitterRadioId", "type":"Uint16"}
+        ]},
+        {"version": "v7", "fields":[
+            {"name":"protocolVersion", "type":"Uint8"},
+            {"name":"exerciseId", "type":"Uint8"},
+            {"name":"pduType", "type":"Uint8"},
+            {"name":"protocolFamily", "type":"Uint8"},
+            {"name":"timestamp", "type":"Uint32"},
+            {"name":"pduLength", "type":"Uint16"},
+            {"name":"pduStatus", "type":"Uint8"},
+            {"name":"padding", "type":"Uint8"},
+            {"name":"entityId", "type":"EntityId"},
+            {"name":"radioId", "type":"Uint16"},
+            {"name":"receiverState", "type":"Uint16"},
+            {"name":"padding1", "type":"Uint16"},
+            {"name":"receivedPower", "type":"Float32"},
+            {"name":"transmitterEntityId", "type":"EntityId"},
+            {"name":"transmitterRadioId", "type":"Uint16"}
+        ]}
+]}
