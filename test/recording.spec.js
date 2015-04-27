@@ -13,8 +13,8 @@ describe('recording', function() {
     var id = '1420642699_1420650044';
     describe('query', function() {
         it('it should return a recording object', function () {
-            return recording.query(id).then(function(recording) {
-                recording.should.include.keys('id');
+            return recording.query(id).then(function(result) {
+                result.should.include.keys('id');
             })
             .catch(function(error) {
                 expect(error).to.be.null;
