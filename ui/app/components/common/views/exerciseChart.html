@@ -1,0 +1,39 @@
+<div class="chart-heading">
+    <span class="h4">Exercises by Exercise number: </span>&nbsp;
+</div>
+<div class="exercise-filters">
+    <div class="form-search pull-right">
+        <form name="filterForm">
+            <span class="error"
+                  ng-show="filterForm.exercise.$error.pattern || filterForm.port.$error.pattern || filterForm.duration.$error.pattern"
+                    >Must be numeric</span>&nbsp;&nbsp;
+            <label for="exercise">Exercise No:&nbsp;</label>
+            <input type="text"
+                ng-change="updateExerciseFilter('exercises')"
+                ng-model="filter.exercises"
+                name="exercise"
+                id="exercise"
+                ng-class="{'error':!filterForm.exercise.$valid}"
+                placeholder=" All" />
+            <label for="port">Port:&nbsp</label>
+            <input type="text"
+                ng-change="updatePortFilter('ports')"
+                ng-model="filter.ports"
+                name="port"
+                id="port"
+                ng-class="{'error':!filterForm.port.$valid}"
+                placeholder=" All" />
+            <label for="duration">Min. Duration (mins):&nbsp;</label>
+            <input type="text"
+                ng-change="updateDurationFilter()"
+                ng-model="filter.minDuration"
+                name="duration"
+                id="duration"
+                ng-class="{'error':!filterForm.duration.$valid}"
+                ng-pattern="validNumber"
+                placeholder=" All" />
+        </form>
+    </div>
+</div>
+<!--ng-pattern="validNumber"-->
+

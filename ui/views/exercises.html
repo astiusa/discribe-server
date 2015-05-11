@@ -1,0 +1,53 @@
+<div class="discribe-container">
+    <h3>Exercises</h3>
+    <div exercises
+         exercise-stats="discribe.exerciseStats"
+         time-span="current.timeSpan">
+    </div>
+    <table class="table table-striped table-condensed recording exercises"
+           data-ng-init="sortPredicate='startTimestamp'; sortReverse=false;">
+        <thead>
+        <tr>
+            <th data-sortable-col="start"
+                predicate="sortPredicate"
+                reverse="sortReverse"
+                text="Start">
+            </th>
+            <th data-sortable-col="end"
+                predicate="sortPredicate"
+                reverse="sortReverse"
+                text="End">
+            </th>
+            <th data-sortable-col="duration"
+                predicate="sortPredicate"
+                reverse="sortReverse"
+                text="Duration">
+            </th>
+            <th data-sortable-col="exercise"
+                predicate="sortPredicate"
+                reverse="sortReverse"
+                text="Exercise">
+            </th>
+            <th data-sortable-col="port"
+                predicate="sortPredicate"
+                reverse="sortReverse"
+                text="Port">
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-show="discribe.exercises.length==0" class="no-items"><td colspan="4" style="text-align:center"><span>No Exercises available</span></td></tr>
+            <tr class="clickable"
+                data-ng-repeat="exercise in discribe.exercises | orderBy:sortPredicate:sortReverse"
+                ng-click="selectExercise(exercise.id)"
+                ng-show="discribe.exercises.length>0"
+                ng-class="{selected: exercise.id==current.exerciseId}">
+                <td>{{exercise.start | formatDateTime}}</td>
+                <td>{{exercise.end | formatDateTime}}</td>
+                <td>{{exercise.duration | formatDuration}}</td>
+                <td>{{exercise.exercise}}</td>
+                <td>{{exercise.port}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,39 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="navbarCtrl">
+    <div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li ng-class="{ active: location.path=='/recordings'}"><a href ng-click="changeLocation('recordings')">Recordings</a></li>
+                <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/exercises'}"><a href ng-click="changeLocation('exercises')">Exercises</a></li>
+                <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/inspector'}"><a href ng-click="changeLocation('inspector')">Inspector</a></li>
+                <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/comms'}"><a href ng-click="changeLocation('comms')">Comms</a></li>
+                <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/entities'}"><a href ng-click="changeLocation('entities')">Entities</a></li>
+                <!--<li ng-show="discribe.recording && !discribe.recording.isLocal && discribe.recordingId" class="dropdown" dropdown>
+                <li class="dropdown" dropdown>
+                    <a href="#" class="dropdown-toggle" dropdown-toggle>Actions<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-show="discribe.recording.inprogress"><a href ng-click="">Live Monitor</a></li>
+                        <li><a href ng-click="showReplayDialog()">Replay</a></li>
+                        <li><a href ng-click="showArchiveDialog()">Archive</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" dropdown>
+                    <a href="#" class="dropdown-toggle" dropdown-toggle>Manage<b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-show="discribe.recordingSource"><a href ng-click="changeLocation('replays')">Replays</a></li>
+                        <li ng-show="discribe.recordingSource"><a href ng-click="changeLocation('archives')">Archives</a></li>
+                        <li><a href ng-click="changeLocation('filters')">Filters</a></li>
+                        <li><a href ng-click="changeLocation('names')">Names</a></li>
+                        <li><a href ng-click="changeLocation('status')">Status</a></li>
+                    </ul>
+                </li>-->
+            </ul>
+            <div class="nav asti-brand">
+                <span class="asti-logo"></span>
+            </div>
+            <div class="nav asti-brand">
+                <span class="asti-brand">DIScribe</span>
+            </div>
+        </div>
+    </div>
+</nav>
+

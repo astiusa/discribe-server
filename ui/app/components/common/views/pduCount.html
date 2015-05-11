@@ -1,0 +1,24 @@
+<div class="pduCountHeader">
+    <!--<span class="h4">{{pduStats.pduType | pduTypeName}} PDU's per {{pduStats.units}}</span>-->
+    <div class="btn-group" dropdown is-open="status.isopen">
+        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled" id="filterDropDown">
+            {{pduStats.pduType | pduTypeName}}{{pduStats.pduType==-1 ? " packets" : " PDU's"}} per {{pduStats.units}}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li ng-class="{active: pduStats.pduType == 'Total'}"><a href="" ng-click="pduStats.selectPduType('Total')">Total PDU's per {{pduStats.units}}</a></li>
+            <li ng-class="{active: pduStats.pduType == item.pduType}" ng-repeat="item in pduStats.pduTypesAvailable" ng-show="item.pduType!='Total'">
+                <a href="" ng-click="pduStats.selectPduType(item.pduType)">{{item.name}}{{item.pduType==-1 ? " packets" : " PDU's"}} per {{pduStats.units}}</a>
+            </li>
+        </ul>
+    </div>
+    &nbsp;
+    <input type='checkbox'
+        data-ng-model="pduStats.applyToFilter"
+        data-ng-change="pduStats.selectPduType(pduStats.pduType)">
+    &nbsp; <span>Apply to PDU field filter</span>
+    &nbsp;
+    <span tooltip title="Double-click to zoom to next day, hour or minute. Swipe to select a zoom range. Revert to zoom out">
+        <i class="hint fa fa-info-circle fa-lg"></i>
+    </span>
+</div>

@@ -1,0 +1,144 @@
+/* Nav bar styles*/
+.navbar {
+    margin-bottom: 0px;
+}
+.navbar-fixed-top {
+    position: relative;
+}
+.navbar-inverse {
+    background-color: #003da7;
+    border-color: #080808;
+}
+.navbar-inverse .navbar-brand {
+    color: white;
+}
+.navbar-inverse .navbar-nav>li>a {
+    color: white;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #fff000;
+}
+.navbar-inverse .navbar-nav>.open>a,
+.navbar-inverse .navbar-nav>.open>a:hover,
+.navbar-inverse .navbar-nav>.open>a:focus
+{
+    background-color: #003da7;
+}
+.nav-tabs > li > a:hover {
+    cursor: pointer;
+}
+div.asti-brand {
+    float: right;
+    text-align: center;
+}
+span.asti-brand {
+    font-size: 20px;
+    line-height: 20px;
+    display: block;
+    padding: 20px 5px 0 0;
+    color: white;
+}
+.asti-logo {
+    display:block;
+    min-height: 46px;
+    width: 91px;
+    background-image: url('../app/images/asti_logo.png');
+    background-size: 91px 46px;
+    margin: 2px 2px 0 0;
+}
+
+/* discribe */
+.discribe-container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* table styles */
+table.recording tr.clickable:hover {
+    cursor: pointer;
+}
+table.recording tr.selected td {
+    background-color: blue;
+    color: white;
+}
+
+/* d3 charts */
+svg {
+    font: 10px sans-serif;
+}
+
+.axis {
+    shape-rendering: crispEdges;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #999;
+    shape-rendering: crispEdges;
+}
+
+.x.axis line {
+    stroke: #000;
+    stroke-opacity: .5;
+}
+
+.y.axis line {
+    stroke: #000;
+}
+
+path.line {
+    fill: none;
+    stroke: #000;
+    stroke-width: .5;
+}
+
+.x.axis text {
+    font: 14px sans-serif;
+}
+
+.y.axis text {
+    font: 11px sans-serif;
+}
+
+rect.pane {
+    fill: none;
+}
+
+rect.transmissions.pane,  rect.exercises.pane, rect.forceLevels.pane {
+    fill: grey;
+    opacity: .15;
+}
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+
+.line-signalpdu {
+    stroke: green;
+}
+
+.line-transmission {
+    stroke: green;
+    stroke-width: 5;
+}
+
+.line-exercise {
+    stroke: blue;
+    stroke-width: 5;
+}
+
+.area {
+    fill: steelblue;
+    clip-path: url(#clip);
+}
+.pduCounts.bar {
+    fill: steelblue;
+}
+
+.hint {
+    color: blue;
+    font-size: large;
+}

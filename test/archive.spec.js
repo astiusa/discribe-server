@@ -23,7 +23,7 @@ describe('archive', function() {
     });
 
     describe('queryExercises', function() {
-        it('it should return a list of exercises, possibly empty', function () {
+        it('it should return an array of exercises, possibly empty', function () {
             return archive.queryExercises(id).then(function(exercises) {
                 expect(Array.isArray(exercises)).to.be.true;
             })
@@ -34,7 +34,7 @@ describe('archive', function() {
     });
 
     describe('queryPduStats', function() {
-        it('it should return a pdu statistics object', function () {
+        it('it should return an array of pdu statistics, possibly empty', function () {
             return archive.queryPduStats(id, 'perHour').then(function(pduStats) {
                 expect(Array.isArray(pduStats)).to.be.true;
             })
@@ -44,10 +44,10 @@ describe('archive', function() {
         });
     });
 
-    describe('queryEntities', function() {
-        it('it should return a buffer of entity summary pdus', function () {
-            return archive.queryEntities(id).then(function(entities) {
-                expect(entities).to.be.an.instanceof(Buffer);
+    describe('queryEntitySummary', function() {
+        it('it should return an array of entity summary pdus, possibly empty', function () {
+            return archive.queryEntitySummary(id).then(function(entitySummary) {
+                expect(Array.isArray(entitySummary)).to.be.true;
             })
             .catch(function(error) {
                 expect(error).to.be.null;
@@ -56,9 +56,9 @@ describe('archive', function() {
     });
 
     describe('queryTransmissions', function() {
-        it('it should return a buffer transmission summary pdus', function () {
+        it('it should return an array of transmission summary pdus, possibly empty', function () {
             return archive.queryTransmissions(id).then(function(transmissions) {
-                expect(transmissions).to.be.an.instanceof(Buffer);
+                expect(Array.isArray(transmissions)).to.be.true;
             })
             .catch(function(error) {
                 expect(error).to.be.null;
@@ -67,7 +67,7 @@ describe('archive', function() {
     });
 
     describe('queryPdus', function() {
-        it('it should return an array of pdus', function () {
+        it('it should return an array of pdus, possibly empty', function () {
             return archive.query(id)
                 .then(function(rec) {
                     return archive.queryPdus(id, rec.startTimestamp, rec.startTimestamp).then(function(pdus) {

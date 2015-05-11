@@ -2,3 +2,4 @@ node_modules
 lib/dis/*
 lib/disSupporting/*
 data/recordings/*
+ui/bower_components

@@ -23,44 +23,59 @@ describe('recording', function() {
     });
 
     describe('queryExercises', function() {
-        it('it should return a list of exercises, possibly empty', function () {
+        it('it should return an array of exercises, possibly empty', function () {
             return recording.queryExercises(id).then(function(exercises) {
                 expect(Array.isArray(exercises)).to.be.true;
+            })
+            .catch(function(error) {
+                expect(error).to.be.null;
             });
         });
     });
 
     describe('queryPduStats', function() {
-        it('it should return a pdu statistics object', function () {
+        it('it should return an array of pdu statistics, possibly empty', function () {
             return recording.queryPduStats(id, 'perHour').then(function(pduStats) {
                 expect(Array.isArray(pduStats)).to.be.true;
+            })
+            .catch(function(error) {
+                expect(error).to.be.null;
             });
         });
     });
 
-    describe('queryEntities', function() {
-        it('it should return a buffer of entity summary pdus', function () {
-            return recording.queryEntities(id).then(function(entities) {
-                expect(entities).to.be.an.instanceof(Buffer);
+    describe('queryEntitySummary', function() {
+        it('it should return an array of entity summary pdus, possibly empty', function () {
+            return recording.queryEntitySummary(id).then(function(entitySummary) {
+                expect(Array.isArray(entitySummary)).to.be.true;
+            })
+            .catch(function(error) {
+                expect(error).to.be.null;
             });
         });
     });
 
     describe('queryTransmissions', function() {
-        it('it should return a buffer transmission summary pdus', function () {
+        it('it should return an array of transmission summary pdus, possibly empty', function () {
             return recording.queryTransmissions(id).then(function(transmissions) {
-                expect(transmissions).to.be.an.instanceof(Buffer);
+                expect(Array.isArray(transmissions)).to.be.true;
+            })
+            .catch(function(error) {
+                expect(error).to.be.null;
             });
         });
     });
 
     describe('queryPdus', function() {
-        it('it should return a buffer of pdus', function () {
+        it('it should return an array of pdus, possibly empty', function () {
             return recording.query(id)
                 .then(function(rec) {
                     return recording.queryPdus(id, rec.firstTimestamp, rec.firstTimestamp).then(function(pdus) {
                         expect(Array.isArray(pdus)).to.be.true;
                     });
+                })
+                .catch(function(error) {
+                    expect(error).to.be.null;
                 });
         });
     });

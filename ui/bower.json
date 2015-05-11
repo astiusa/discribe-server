@@ -1,0 +1,18 @@
+{
+  "name": "DIScribe",
+  "version": "1.0.0",
+  "description": "DIScribe web ui",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.3.15",
+    "angular-bootstrap": "~0.12.1",
+    "angular-route": "~1.3.15",
+    "angular-ui": "~0.4.0",
+    "bootstrap": "~3.3.4",
+    "font-awesome": "~4.3.0",
+    "ng-grid": "~2.0.14",
+    "requirejs": "~2.1.17",
+    "angular-resource": "~1.3.15",
+    "d3": "~3.5.5"
+  }
+}

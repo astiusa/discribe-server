@@ -17,25 +17,26 @@ var {pduVersion} = function() {{    // size: {sizeInBytes} bytes
     var self = {{}};
 
     self.view = function(dataView) {{
-        var protocolVersion = {protocolVersion};
 
         // Getter & setters
         var view = {{{getters}
     {setters}
         }};
 
+        view.protocolVersion = {protocolVersion};
+
         // Helper functions
-        view.asByteArray = function() {{return dataView.byteArray(0, self.pduLength)}};
-        view.asArrayBuffer = function() {{return dataView.arrayBuffer(0, self.pduLength)}};
+        view.asByteArray = function() {{return dataView.byteArray(0, this.pduLength)}};
+        view.asArrayBuffer = function() {{return dataView.arrayBuffer(0, this.pduLength)}};
+
+        // Field order for formatter
+        view.fieldOrder = [{fieldOrder}
+        ];
 
         return view;
     }};
 
-    // Field order for inspector view
-    self.fieldOrder = [{fieldOrder}
-    ];
-
-    // Field properties for inspector view
+    // Field properties for formatter
     self.fieldProperties = {{{fieldProperties}
     }};
 
@@ -47,27 +48,27 @@ var {pduVersion} = function() {{    // size: {sizeInBytes} bytes
     var self = {{}};
 
     self.view = function(dataView, offset) {{
-        var protocolVersion = {protocolVersion};
 
         // Getter & setters
         var view = {{{getters}
     {setters}
         }};
 
+        view.protocolVersion = {protocolVersion};
         view.size = {sizeInBytes};
 
         // Helper functions
         view.asByteArray = function() {{return dataView.byteArray(0, {sizeInBytes})}};
         view.asArrayBuffer = function() {{return dataView.arrayBuffer(0, {sizeInBytes})}};
 
+        // Field order for formatter
+        view.fieldOrder = [{fieldOrder}
+        ];
+
         return view;
     }};
 
-    // Field order for inspector view
-    self.fieldOrder = [{fieldOrder}
-    ];
-
-    // Field properties for inspector view
+    // Field properties for formatter
     self.fieldProperties = {{{fieldProperties}
     }};
 
@@ -155,9 +156,9 @@ primitiveTypeTemplate = {
 #### array of primitive types, specifing length
 primitiveArrayTemplate = {
     "getter": """
-            get {fieldName}() {{return dis.{fieldType}.get(dataView, {prefix}{offset}, {length});}},""",
+            get {fieldName}() {{return dis.UtilityFunctions.{fieldType}.get(dataView, {prefix}{offset}, {length});}},""",
     "setter": """
-            set {fieldName}(list) {{dis.{fieldType}.set(dataView, {prefix}{offset}, list);}}"""
+            set {fieldName}(list) {{dis.UtilityFunctions.{fieldType}.set(dataView, {prefix}{offset}, list);}}"""
 }
 
 primitiveArrayTemplates = {
@@ -170,7 +171,7 @@ primitiveArrayTemplates = {
 #### pduSupport objects e.g EntityId, EntityType
 pduSupportObjectTemplate = {
     "getter": """
-            get {fieldName}() {{return dis.{fieldType}.view(dataView, {prefix}{offset}, protocolVersion);}},""",
+            get {fieldName}() {{return dis.{fieldType}.view(dataView, {prefix}{offset}, this.protocolVersion);}},""",
     "setter": """
             set {fieldName}(val) {{dataView.setFromByteArray({prefix}{offset}, val.asByteArray());}}"""
 }
@@ -178,9 +179,9 @@ pduSupportObjectTemplate = {
 #### list of pduSupport objects, specifying list size through lengthField
 pduSupportObjectListTemplate = {
     "getter": """
-            get {fieldName}() {{return dis.UtilityFunctions.{fieldType}.get(dataView, {prefix}{offset}, protocolVersion, this.{lengthField});}},""",
+            get {fieldName}() {{return dis.UtilityFunctions.{fieldType}.get(dataView, {prefix}{offset}, this.protocolVersion, this.{lengthField});}},""",
     "setter": """
-            set {fieldName}(list) {{dis.UtilityFunctions.{fieldType}.set(dataView, {prefix}{offset}, protocolVersion, list);}}"""
+            set {fieldName}(list) {{dis.UtilityFunctions.{fieldType}.set(dataView, {prefix}{offset}, this.protocolVersion, list);}}"""
 }
 
 pduSupportObjectListTemplates = {
@@ -357,7 +358,7 @@ def processPduTemplates(templateDir):
     return modules
 
 def copySupportModules(srcDir):
-    disFiles = []
+    disFiles = ["Udp.js"]
     disSupprtFiles = ["DisView.js", "UtilityFunctions.js",
     "DescriptorRecord.js",
     "ModulationParameter.js",
