@@ -4,9 +4,9 @@
             <ul class="nav navbar-nav">
                 <li ng-class="{ active: location.path=='/recordings'}"><a href ng-click="changeLocation('recordings')">Recordings</a></li>
                 <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/exercises'}"><a href ng-click="changeLocation('exercises')">Exercises</a></li>
-                <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/inspector'}"><a href ng-click="changeLocation('inspector')">Inspector</a></li>
                 <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/comms'}"><a href ng-click="changeLocation('comms')">Comms</a></li>
                 <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/entities'}"><a href ng-click="changeLocation('entities')">Entities</a></li>
+                <li ng-show="discribe.recordingId" ng-class="{ active: location.path=='/inspector'}"><a href ng-click="changeLocation('inspector')">PDUs</a></li>
                 <!--<li ng-show="discribe.recording && !discribe.recording.isLocal && discribe.recordingId" class="dropdown" dropdown>
                 <li class="dropdown" dropdown>
                     <a href="#" class="dropdown-toggle" dropdown-toggle>Actions<b class="caret"></b></a>

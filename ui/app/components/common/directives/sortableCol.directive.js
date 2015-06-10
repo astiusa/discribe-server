@@ -20,9 +20,9 @@ function factory($compile) {
     if (subtext) {
       template = template + "<br/>{{subtext}}";
     }
-    template = template + " {{units}} <span style='padding-left:5px;'><i data-ng-show='sortPredicate!=predicate' class='icon-sort'></i>" +
+    template = template + " {{units}} <span style='padding-left:5px;'><i data-ng-show='sortPredicate!=predicate' class='fa fa-sort'></i>" +
       "<i data-ng-show='sortPredicate==predicate'" +
-      "data-ng-class='{\"icon-sort-up\":reverse, \"icon-sort-down\":!reverse}'>" +
+      "data-ng-class='{\"fa fa-sort-up\":reverse, \"fa fa-sort-down\":!reverse}'>" +
       "</i></span>";
     return template
   };

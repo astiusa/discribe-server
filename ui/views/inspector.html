@@ -1,46 +1,18 @@
 <div class="discribe-container">
-    <h3>Inspector</h3>
+    <div title-bar time-span="current.timeSpan"></div>
     <div pdu-counts
          pdu-stats="discribe.pduStats"
          time-span="current.timeSpan">
     </div>
-    <table class="table table-striped table-condensed pdus"
-           data-ng-init="sortPredicate='startTimestamp'; sortReverse=false;">
-        <thead>
-        <tr>
-            <th data-sortable-col="header.timestamp"
-                predicate="sortPredicate"
-                reverse="sortReverse"
-                text="Time">
-            </th>
-            <th data-sortable-col="header.srcAddress"
-                predicate="sortPredicate"
-                reverse="sortReverse"
-                text="Source IP">
-            </th>
-            <th data-sortable-col="pduType"
-                predicate="sortPredicate"
-                reverse="sortReverse"
-                text="Type">
-            </th>
-            <th data-sortable-col="entityId"
-                predicate="sortPredicate"
-                reverse="sortReverse"
-                text="Entity">
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-show="discribe.pdus.length==0" class="no-items"><td colspan="4" style="text-align:center"><span>No PDUs found</span></td></tr>
-        <tr class="clickable"
-            data-ng-repeat="pdu in discribe.pdus | orderBy:sortPredicate:sortReverse"
-            ng-click=""
-            ng-show="discribe.pdus.length>0">
-            <td>{{pdu.header.timestamp}}</td>
-            <td>{{pdu.header.srcAddress | formatIPAddr}}</td>
-            <td>{{pdu.pduType}}</td>
-            <td>{{pdu.entityId | formatEntityId}}</td>
-        </tr>
-        </tbody>
-    </table>
+    <tabset class="comms">
+        <tab heading="By EntityID" select="showAllPdus()">
+            <!--<div ng-include src="'app/components/inspector/views/allPdus.html'"></div>-->
+        </tab>
+        <tab data-ng-repeat="tab in tabs" select="showEntityIdPdus(tab)">
+            <tab-heading>
+                <span>{{tab.name}}</span> <i class="glyphicon glyphicon-remove" ng-click="removeTab($event, $index)"></i> <!-- the tab close button -->
+            </tab-heading>
+        </tab>
+    </tabset>
+    <div ng-show="discribe.showPdus" ng-include src="'app/components/common/views/pduView.html'"></div>
 </div>

@@ -4,8 +4,12 @@
 
 define([
     './entities.controller',
-    './entities.service'
-], function(entitiesCtrl, entitiesService) {
+    './entities.service',
+    './mapUtils.service'
+], function(
+    entitiesCtrl,
+    entitiesService,
+    mapUtilsService) {
 
     'use strict';
 
@@ -13,4 +17,5 @@ define([
 
     module.controller(entitiesCtrl);
     module.service(entitiesService);
+    module.service(mapUtilsService);
 });

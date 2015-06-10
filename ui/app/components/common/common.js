@@ -8,15 +8,23 @@ define([
         './directives/pduCounts.directive',
         './directives/radioPduCounts.directive',
         './directives/sortableCol.directive',
+        './directives/titleBar.directive',
 
+        './filters/formatDateRange.filter',
         './filters/formatDateTime.filter',
+        './filters/formatDecimal.filter',
         './filters/formatDuration.filter',
         './filters/formatEntityId.filter',
         './filters/formatEntityMarking.filter',
         './filters/formatEntityType.filter',
+        './filters/formatHeading.filter',
         './filters/formatIPAddr.filter',
         './filters/formatFrequency.filter',
-        './filters/pduTypeName.filter'
+        './filters/formatlat.filter',
+        './filters/formatLon.filter',
+        './filters/pduTypeName.filter',
+
+        './services/disEnums.service'
     ],
     function(
         exercisesDirective,
@@ -24,15 +32,23 @@ define([
         pduCountsDirective,
         radioPduCountsDirective,
         sortableColDirective,
+        titleBarDirective,
 
+        formatDateRangeFilter,
         formatDateTimeFilter,
+        formatDecimalFilter,
         formatDurationFilter,
         formatEntityIdFilter,
         formatEntityMarkingFilter,
         formatEntityTypeFilter,
+        formatHeadingFilter,
         formatIPAddrFilter,
         formatFrequencyFilter,
-        pduTypeNameFilter
+        formatLatFilter,
+        formatLonFilter,
+        pduTypeNameFilter,
+
+        disEnumsService
     ) {
 
         'use strict';
@@ -44,14 +60,22 @@ define([
         module.directive(pduCountsDirective);
         module.directive(radioPduCountsDirective);
         module.directive(sortableColDirective);
+        module.directive(titleBarDirective);
 
+        module.filter(formatDateRangeFilter);
         module.filter(formatDateTimeFilter);
+        module.filter(formatDecimalFilter);
         module.filter(formatDurationFilter);
         module.filter(formatEntityIdFilter);
         module.filter(formatEntityMarkingFilter);
         module.filter(formatEntityTypeFilter);
+        module.filter(formatHeadingFilter);
         module.filter(formatIPAddrFilter);
         module.filter(formatFrequencyFilter);
+        module.filter(formatLatFilter);
+        module.filter(formatLonFilter);
         module.filter(pduTypeNameFilter);
+
+        module.service(disEnumsService);
     });
 

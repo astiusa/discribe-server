@@ -34,7 +34,7 @@ describe('filter', function() {
         pdu.exerciseId = 3;
         pdu.forceId = 2;
 
-        var filter = new Filter()
+        var filter = new Filter();
         it('it should pass a pdu that matches the filter expression', function () {
         });
         it('it should reject a pdu that does not match the filter expression', function () {

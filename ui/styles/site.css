@@ -50,8 +50,25 @@ span.asti-brand {
 
 /* discribe */
 .discribe-container {
+    margin-top: 4px;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+/* title bar style */
+.title-bar-container {
+    margin-bottom: 5px;
+    margin-left: 0px;
+}
+.title-bar {
+    float: left;
+    margin-left: 10px;
+}
+.title-bar>span>.fa, .dropdown-menu span>.fa {
+    font-size: 8px;
+}
+.title-bar> span {
+    line-height: 28px;
 }
 
 /* table styles */
@@ -61,6 +78,20 @@ table.recording tr.clickable:hover {
 table.recording tr.selected td {
     background-color: blue;
     color: white;
+}
+
+.inspector-table-container {
+    overflow: auto;
+    margin-top: 10px;
+}
+div.scroll-container {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height:450px;
+}
+
+.report-img {
+    height: 20px;
 }
 
 /* d3 charts */

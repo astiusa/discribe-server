@@ -419,8 +419,7 @@ disUtils.VariableDatumList = {
             list.push(variableDatum);
 
             // Size is (value in bits) to next 64 bit boundary, convert to bytes + Uint32 +Uint32
-            var variableDatumSize = (Math.ceil(variableDatum.variableDatumLength>>6)<<3) + 64;
-            nextOffset += variableDatumSize;
+            nextOffset += (Math.ceil(variableDatum.variableDatumLength>>6)<<3) + 64;
         }
 
         return list;
@@ -493,5 +492,38 @@ disUtils.VariableTransmitterParameterList = {
 
     set : function(dataView, offset, protocolVersion, list) {
         // Tbd
+    }
+};
+
+disUtils.createTestEnv = function() {
+    var bv = require('../bv');
+    var pduView = require('../pduView');
+
+    var getPdu = function(pduType, protocolVersion, exerciseId) {
+        var pduVersion = pduView.pdus[pduType].version(protocolVersion);
+        var buffer = new Buffer(pduVersion.baseSize);
+        var dv = bv.dataView(buffer, 0, false);
+
+        var pdu = pduView.pdu(pduType, dv, protocolVersion);
+        pdu.pduType = pduType;
+        pdu.length = pduVersion.baseSize;
+        pdu.protocolVersion = protocolVersion;
+        pdu.exerciseId = exerciseId;
+
+        for (var field in pduVersion.fieldProperties) {
+
+        }
+
+        return pdu;
+    };
+
+    // Create 'all' pdus test environment
+    var protocolVersion = 6;
+    var exerciseId = 10;
+    for (var pduType in pduView.pdus) {
+        if (pduView.pdus.hasOwnProperty(pduType)) {
+            var pdu = getPdu(pduType, protocolVersion, exerciseId);
+            var ccc = 1;
+        }
     }
 };

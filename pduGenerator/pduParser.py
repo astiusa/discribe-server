@@ -16,6 +16,8 @@ pduVersionTemplate = """
 var {pduVersion} = function() {{    // size: {sizeInBytes} bytes
     var self = {{}};
 
+    self.baseSize = {sizeInBytes};
+
     self.view = function(dataView) {{
 
         // Getter & setters
@@ -219,9 +221,9 @@ recordSetValuesTemplates = {
 audioDataTemplates = {
     "AudioData":{
         "getter": """
-            get {fieldName}() {{return dis.AudioData.get(dataView, {prefix}{offset}, this.{lengthField}, this.{dataLengthField});}},""",
+            get {fieldName}() {{return dis.UtilityFunctions.AudioData.get(dataView, {prefix}{offset}, this.{lengthField}, this.{dataLengthField});}},""",
         "setter": """
-            set {fieldName}(list) {{dis.AudioData.set(dataView, {prefix}{offset}, list, this.{lengthField}, this.{dataLengthField});}}"""
+            set {fieldName}(list) {{dis.UtilityFunctions.AudioData.set(dataView, {prefix}{offset}, list, this.{lengthField}, this.{dataLengthField});}}"""
     }
 }
 

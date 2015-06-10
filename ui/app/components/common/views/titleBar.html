@@ -1,0 +1,94 @@
+<div class="row title-bar-container">
+    <div class="col-xs12">
+        <div class="btn-group pull-left">
+            <!--
+            <button data-ng-class="{'btn-primary': current.recording && !current.recording.isLocal && current.filter.duration>0}"
+                    type="button"
+                    ng-click="showReplayDialog()"
+                    data-ng-disabled="!current.recording || current.recording.isLocal || current.filter.duration==0"
+                    tooltip
+                    title="Replay">
+                <i class="fa fa-play fa-sm"></i>
+            </button>
+            <button data-ng-class="{'btn-primary': current.recording && !current.recording.isLocal && current.filter.duration>0}"
+                    type="button"
+                    ng-click="showArchiveDialog()"
+                    data-ng-disabled="!current.recording || current.recording.isLocal || current.filter.duration==0"
+                    tooltip
+                    title="Archive">
+                <i class="fa fa-download fa-sm"></i>
+            </button>
+            <button data-ng-class="{'btn-primary': current.filter.isLive}"
+                    type="button"
+                    ng-click="current.filter.liveMode==!current.filter.liveMode"
+                    data-ng-disabled="!current.filter.isLive"
+                    tooltip
+                    title="Live Mode">
+                <i class="fa fa-cog fa-sm"
+                    ng-class="{'fa-spin' : current.filter.liveMode}"></i>
+            </button>
+        </div>-->
+        <div class="btn-group pull-left" dropdown is-open=isOpen>
+            <button data-ng-class="{'btn-primary': current.timeSpan.canRevert}"
+                    type="button"
+                    ng-mousedown="mouseDown()"
+                    ng-mouseup="mouseUp()"
+                    data-ng-disabled="!current.timeSpan.canRevert"
+                    tooltip
+                    title="Back to previous selection">
+                <i class="fa fa-arrow-left fa-sm"></i>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="historyItem in current.timeSpan.savedRanges">
+                    <a href ng-click="current.timeSpan.revertRange($index)">
+                        <!--
+                        <span>
+                            <span>{{current.recordingSource ? current.recordingSource : "Local"}}</span>
+                        </span>
+                        <span>
+                            <i class="fa fa-chevron-right"></i>
+                            <span>{{current.recording.name}}</span>
+                        </span>
+                        <span ng-show="historyItem.exercises.length>0">
+                            <i class="fa fa-chevron-right"></i>
+                            <span>Exercise {{historyItem.exercises[0]}}</span>
+                            <span  ng-show="historyItem.ports.length>0">:{{historyItem.ports[0]}}</span>
+                        </span>
+                        -->
+                        <span>
+                            <i class="fa fa-chevron-right"></i>
+                            {{historyItem.startTimestamp | formatDateRange:historyItem.endTimestamp}}
+                            ({{historyItem.duration | formatDuration}})
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="title-bar">
+            <!--
+            <span>
+                <span class="h4 source">{{current.recordingSource ? current.recordingSource : "Local"}}</span>
+            </span>
+            <span>
+                <i class="fa fa-chevron-right"></i>
+                <span><i ng-show="current.recording.inprogress==true" class="in-progress fa fa-circle fa-xs"></i></span>
+                <span class="h4 recording">{{current.recording.name}}</span>
+            </span>
+            <span ng-show="current.filter.exercises.length>0">
+                <i class="fa fa-chevron-right"></i>
+                <span class="h4 exercise">
+                    <span>Exercise {{current.filter.exercises[0]}}</span>
+                    <span ng-show="current.filter.ports.length>0">:{{current.filter.ports[0]}}</span>
+                </span>
+            </span>
+            -->
+            <span>
+                <i class="fa fa-chevron-right"></i>
+                <span class="h4 range">
+                    {{current.timeSpan.startTimestamp | formatDateRange:current.timeSpan.endTimestamp}}
+                    ({{current.timeSpan.duration | formatDuration}})
+                </span>
+            </span>
+        </div>
+    </div>
+</div>

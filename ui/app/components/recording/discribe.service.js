@@ -1,24 +1,27 @@
 /**
-         * Created by chriscooke on 4/29/15.
-         */
+ * Created by chriscooke on 4/29/15.
+ */
 
-        define([], function() {
+define(['bower_components/d3/d3.min'], function(d3) {
 
-            'use strict';
+    'use strict';
 
-            var deps = ['$resource','$q'];
+    var deps = ['$resource','$q', '$timeout'];
 
-            return {svcDiscribe: deps.concat(factory)};
+    return {svcDiscribe: deps.concat(factory)};
 
-            function factory($resource, $q) {
-                var options = {stripTrailingSlashes:false};
-                var service = {};
+    function factory($resource, $q, $timeout) {
+        var options = {stripTrailingSlashes:false};
+        var service = {};
 
         service.TimeSpan = function() {
             var timeSpan = {};
             timeSpan.startTimestamp = null;
             timeSpan.endTimestamp = null;
+            timeSpan.maxTimestamp = 0;
             timeSpan.duration = 0;
+            timeSpan.savedRanges = [];
+            timeSpan.canRevert = false;
             timeSpan.hasUpdate = false;
             timeSpan.hasLiveUpdate = false;
 
@@ -34,16 +37,86 @@
                 timeSpan.isLive = false; //service.current.recording.inprogress && ((timeSpan.maxTimestamp-timeSpan.endTimestamp)<15);
             };
             timeSpan.saveCurrentRange = function() {
-
+                // Remember recording end for possible live tailing test on revert
+                timeSpan.savedRanges.push({
+                    startTimestamp: timeSpan.startTimestamp,
+                    endTimestamp: timeSpan.endTimestamp,
+                    maxTimestamp: timeSpan.maxTimestamp,
+                    duration: timeSpan.duration
+                });
+                timeSpan.canRevert = true;
             };
             timeSpan.setRange = function(startTimestamp, endTimestamp, maxTimestamp) {
                 timeSpan.updateRange(startTimestamp, endTimestamp, maxTimestamp);
+                timeSpan.notifyUpdated();
             };
             timeSpan.setClosestRange = function() {
+                // Calculates best zoom range to set from dateTime and current range (duration)
+                var startTimestamp;
+                var endTimestamp;
+                if (timeSpan.duration<7201) {
+                    // zoom to 60 secs range
+                    dt = d3.time.minute(dt);
+                    startTimestamp = Math.floor(dt.getTime()/1000);
+                    endTimestamp = startTimestamp+60;
 
+                } else if (timeSpan.duration<86401) {
+                    // zoom to 60 mins range
+                    dt = d3.time.hour(dt);
+                    startTimestamp = Math.floor(dt.getTime()/1000);
+                    endTimestamp = startTimestamp+3600;
+
+                } else {
+                    // zoom to 24 hours
+                    dt = d3.time.day(dt);
+                    startTimestamp = Math.floor(dt.getTime()/1000);
+                    endTimestamp = startTimestamp+86400;
+                }
+
+                // Clamp to current limits
+                if (startTimestamp < timeSpan.startTimestamp) {
+                    startTimestamp = timeSpan.startTimestamp;
+                }
+                if (endTimestamp > timeSpan.endTimestamp) {
+                    endTimestamp = timeSpan.endTimestamp;
+                }
+                timeSpan.saveCurrentRange();
+                timeSpan.setRange(startTimestamp, endTimestamp);
             };
-            timeSpan.revertRange = function() {
+            timeSpan.revertRange = function(itemIndex) {
+                if (itemIndex && timeSpan.savedRanges.length>(itemIndex+1)) {
+                    // Remove history items newer than indexed item
+                    var itemsToRemove = timeSpan.savedRanges.length-itemIndex-1;
+                    timeSpan.savedRanges.splice(itemIndex+1, itemsToRemove);
+                }
+                var historyItem = timeSpan.savedRanges.pop();
+                var startTimestamp = historyItem.startTimestamp;
+                var endTimestamp = historyItem.endTimestamp;
+                var maxTimestamp = historyItem.maxTimestamp;
+/*
+                if (timeSpan.exercises.length>0) {
+                    // Assume reverting from exercise
+                    timeSpan.exercises.length = 0;
+                    timeSpan.ports.length = 0;
+                }
+                // if live, update with latest.
+                timeSpan.isLive = service.current.recording.inprogress && ((timeSpan.maxTimestamp-timeSpan.endTimestamp)<15);
+                if (timeSpan.isLive) {
+                    endTimestamp = service.current.recording.endTimestamp;
+                    maxTimestamp = service.current.recording.endTimestamp;
+                }
+ */
 
+                timeSpan.setRange(startTimestamp, endTimestamp, maxTimestamp);
+
+                timeSpan.canRevert = timeSpan.savedRanges.length > 0;
+                timeSpan.notifyUpdated();
+            };
+
+            timeSpan.notifyUpdated = function () {
+                if (timeSpan.hasUpdate++ > 10) {
+                    timeSpan.hasUpdate = 0;
+                }
             };
 
             return timeSpan;
@@ -250,7 +323,7 @@
 
         service.EntitySummary = function(timeSpan) {
             return $resource(
-                service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/entities',
+                service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/entitySummary',
                 {
                     start: timeSpan.startTimestamp,
                     end: timeSpan.endTimestamp
@@ -258,7 +331,7 @@
                 {
                     'query': {
                         method: 'GET',
-                        transformResponse: function(data) {return angular.fromJson(data).entities},
+                        transformResponse: function(data) {return angular.fromJson(data).entitySummary},
                         isArray: true
                     }
                 },
@@ -266,10 +339,13 @@
             );
         };
 
-        service.Transmissions = function() {
+        service.Transmissions = function(timeSpan) {
             return $resource(
                 service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/transmissions',
-                {},
+                {
+                    start: timeSpan.startTimestamp,
+                    end: timeSpan.endTimestamp
+                },
                 {
                     'query': {
                         method: 'GET',
@@ -281,13 +357,21 @@
             );
         };
 
-        service.PDUs = function(timeSpan) {
+        service.PDUs = function(timeSpan, filterExpr, fields) {
+            var params = {
+                start: timeSpan.startTimestamp,
+                end: timeSpan.endTimestamp
+            };
+
+            if (filterExpr) {
+                params.filter = encodeURIComponent(filterExpr);
+            }
+            if (fields) {
+                params.fields = encodeURIComponent(JSON.stringify(fields));
+            }
             return $resource(
                 service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/pdus',
-                {
-                    start: timeSpan.startTimestamp,
-                    end: timeSpan.startTimestamp    //timeSpan.endTimestamp
-                },
+                params,
                 {
                     'query': {
                         method: 'GET',
@@ -298,6 +382,80 @@
                 options
             );
         };
+
+        service.PDU = function(pduId) {
+            var params = {};
+            return $resource(
+                service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/pdus/'+pduId,
+                params,
+                {
+                    'query': {
+                        method: 'GET',
+                        transformResponse: function(data) {return angular.fromJson(data).pdus},
+                        isArray: true
+                    }
+                },
+                options
+            );
+        };
+
+        service.PduReader = function(pdus) {
+            var self = this;
+            self.pdus = pdus;
+            self.count = 0;
+            self.filter = null;
+            self.fields = null;
+
+            self.timeSpan = null;
+            self.readSpan = {startTimestamp:0, endTimestamp:0};
+
+            var readDelta = 1;
+            var dataComplete = false;
+            var readInProgress = false;
+
+            var checkRead = function() {
+                if (!dataComplete && !readInProgress) {
+                    readInProgress = true;
+                    var pdus = service.PDUs(self.readSpan, self.filter, self.fields).query(function() {
+                        Array.prototype.push.apply(self.pdus, pdus);
+                        self.readSpan.startTimestamp += readDelta;
+                        self.readSpan.endTimestamp = self.readSpan.startTimestamp + readDelta -1;
+                        dataComplete = (self.pdus.length>=self.count ||
+                        self.readSpan.startTimestamp >= self.timeSpan.endTimestamp);
+                        readInProgress = false;
+                    });
+                }
+                if (!dataComplete) {
+                    $timeout(function() {
+                        checkRead();
+                    }, 500);
+                } else {
+
+                }
+            };
+
+            self.read = function(timeSpan, filter, fields, count) {
+                self.pdus.length = 0;
+                self.timeSpan = timeSpan;
+                self.readSpan.startTimestamp = timeSpan.startTimestamp;
+                self.readSpan.endTimestamp = self.readSpan.startTimestamp + readDelta -1;
+                self.count = count;
+                self.filter = filter;
+                self.fields = (fields) ? fields : [];
+
+                dataComplete = false;
+                readInProgress = false;
+
+                checkRead();
+            };
+
+            self.cancel = function() {
+                self.pdus.length = 0;
+                dataComplete = true;
+            };
+
+        };
+
 
         return service;
     }

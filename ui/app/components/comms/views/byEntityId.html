@@ -1,0 +1,52 @@
+<table class="table table-striped table-condensed transmissions recording"
+       data-ng-init="sortPredicate='startTimestamp'; sortReverse=false;">
+    <thead>
+    <tr>
+        <th data-sortable-col="entityId"
+            predicate="sortPredicate"
+            reverse="sortReverse"
+            text="Entity">
+        </th>
+        <th data-sortable-col="radioName"
+            predicate="sortPredicate"
+            reverse="sortReverse"
+            text="Radio">
+        </th>
+        <th data-sortable-col="frequency"
+            predicate="sortPredicate"
+            reverse="sortReverse"
+            text="Frequency">
+        </th>
+        <th data-sortable-col="startTime"
+            predicate="sortPredicate"
+            reverse="sortReverse"
+            text="Start">
+        </th>
+        <th data-sortable-col="endTime"
+            predicate="sortPredicate"
+            reverse="sortReverse"
+            text="End">
+        </th>
+        <th data-sortable-col="duration"
+            predicate="sortPredicate"
+            reverse="sortReverse"
+            text="Duration">
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-show="discribe.transmissions.length==0" class="no-items"><td colspan="4" style="text-align:center"><span>No Transmissions found</span></td></tr>
+    <tr class="clickable"
+        data-ng-repeat="transmission in discribe.transmissions | orderBy:sortPredicate:sortReverse"
+        ng-dblclick="addTab(transmission.entityId)"
+        ng-show="discribe.transmissions.length>0">
+        <!--ng-class="{selected: discribe.transmissionId==transmission.id}"-->
+        <td>{{transmission.entityId  | formatEntityId}}</td>
+        <td>{{transmission.radioId}}</td>
+        <td>{{transmission.frequency | formatFrequency}}</td>
+        <td>{{transmission.startTime | formatDateTime}}</td>
+        <td>{{transmission.endTime | formatDateTime}}</td>
+        <td>{{transmission.duration | formatDuration:true}}</td>
+    </tr>
+    </tbody>
+</table>

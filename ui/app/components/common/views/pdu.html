@@ -1,0 +1,49 @@
+<div>
+    <span ng-show="pduView.pduType">
+        <span class="h4">{{pduView.pduType|pduTypeName}} {{pduView.pduType>0 ? "PDU" : "packet"}}</span>
+        <!--<span>&nbsp;Show Raw&nbsp;
+            <input
+                    type="checkbox"
+                    ng-model="pduView.showRaw"
+                    ng-change="refresh()"
+                    >
+        </span>-->
+    </span>
+</div>
+<br>
+<div class="scroll-container">
+    <div ng-class="{'col-md-6': pduView.showRaw}">
+        <script type="text/ng-template"  id="tree_item_renderer.html">
+            <span>
+                <label for="field{{$index}}">{{field.name}}</label>
+                <span class="field-value" id="field{{$index}}">
+                    {{field.value==null ? "" : field.value}}
+                </span>
+            </span>
+            <ul ng-show="field.children!=null" class="pdu-field">
+                <li ng-repeat="field in field.children" ng-include="'tree_item_renderer.html'"></li>
+            </ul>
+        </script>
+        <ul class="pdu-view">
+            <li ng-repeat="field in pduView.fields" ng-include="'tree_item_renderer.html'"></li>
+        </ul>
+    </div>
+    <!--<div class="col-md-6" ng-show="pduView.showRaw">
+        <span ng-repeat="val in pduView.raw track by $index">
+            <span class="pdu-view-raw-title" ng-if="$index==0 || (($index) % 8)==0">{{$index}}:</span>
+            <span class="pdu-view-raw-value">{{val}}</span>
+            <br ng-if="$index!=0 && (($index+1) % 8)==0">
+        </span>
+    </div>-->
+</div>
+<!--<div class="dropdown position-fixed" id="contextMenu">
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="condition in menuItems">
+            <a class="pointer" role="menuitem" tabindex="$index"
+               ng-click="panel.highlight = true; selectCondition(condition)">
+                {{condition.name}}
+            </a>
+        </li>
+    </ul>
+</div>-->
+

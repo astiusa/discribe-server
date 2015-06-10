@@ -25,12 +25,12 @@ var getPdu = function(pduName, pduType, protocolVersion, exerciseId) {
     pdu.exerciseId = exerciseId;
 
     return pdu;
-}
+};
 
 describe('PDU', function() {
     describe('EntityStatePdu', function () {
         it('it should return a valid pdu', function () {
-            var pdu = getPdu('EntityStatePdu', 1, 6, 9)
+            var pdu = getPdu('EntityStatePdu', 1, 6, 9);
             pdu.should.include.keys('pduType');
         });
     });
