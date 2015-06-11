@@ -1,5 +1,7 @@
 npm install
-cd pduGenerator
+cd ui
+bower install
+cd ../pduGenerator
 python pduParser.py
 cd ..
 

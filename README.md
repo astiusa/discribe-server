@@ -7,6 +7,7 @@ node server for DIScribe services
 2. python               // for PDU template generation
 2. npm install mocha -g     // for running tests
 3. npm install bunyan -g    // for 'pretty' log output
+4. npm install bower -g     // for ui packages
 
 # Build
 
