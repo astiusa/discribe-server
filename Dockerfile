@@ -14,7 +14,7 @@ RUN cd /src; npm install --production && \
      npm install -g bunyan && \
      npm install -g bower && \
      cd ui && \
-     bower install && \
+     bower install --allow-root && \
      cd ../pduGenerator && \
      python pduParser.py
 
