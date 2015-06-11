@@ -12,9 +12,10 @@ COPY . /src
 
 RUN cd /src; npm install --production && \
      npm install -g bunyan && \
-     mkdir lib/dis && \
-     mkdir lib/disSupporting && \
-     cd pduGenerator && \
+     npm install -g bower && \
+     cd ui && \
+     bower install && \
+     cd ../pduGenerator && \
      python pduParser.py
 
 ENV NODE_ENV production

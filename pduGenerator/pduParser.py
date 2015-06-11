@@ -392,16 +392,17 @@ def copySupportModules(srcDir):
 def clearTargetDir(dir):
     targetPath = os.path.join(targetRoot, dir)
     for f in os.listdir(targetPath):
-        filePath = os.path.join(targetPath, f)
-        os.unlink(filePath)
+        if f.lower().endswith('.js'):
+            filePath = os.path.join(targetPath, f)
+            os.unlink(filePath)
 
 def createIndexFile(dir):
     requireArray = []
     targetPath = os.path.join(targetRoot, dir)
-    files = os.listdir(targetPath)
-    for f in files:
-        moduleName = f.replace(".js", "")
-        requireArray.append("exports.%s = require('../%s/%s');" % (moduleName,dir, moduleName))
+    for f in os.listdir(targetPath):
+        if f.lower().endswith('.js'):
+            moduleName = f.replace(".js", "")
+            requireArray.append("exports.%s = require('../%s/%s');" % (moduleName,dir, moduleName))
 
     indexBody = "\n".join(module for module in requireArray)
 
