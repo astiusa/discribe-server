@@ -20,7 +20,7 @@ define([
         './filters/formatHeading.filter',
         './filters/formatIPAddr.filter',
         './filters/formatFrequency.filter',
-        './filters/formatlat.filter',
+        './filters/formatLat.filter',
         './filters/formatLon.filter',
         './filters/pduTypeName.filter',
 
