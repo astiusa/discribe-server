@@ -62,7 +62,7 @@ define([], function() {
             });
         };
 
-        $scope.pduSearch = svcDiscribe.pduQueries('entities');
+        $scope.pduSearch = svcDiscribe.pduQuerySet('entities');
 
         $scope.addSearch = function(entityId) {
             var searchName = $filter('formatEntityId')(entityId);
@@ -91,6 +91,9 @@ define([], function() {
             // No recording, force selection
             $location.path('/');
         }
+
+        $scope.$on("$destroy", function() {
+        });
     }
 });
 

@@ -7,7 +7,7 @@
     <tabset class="comms">
         <tab data-ng-repeat="view in pduSearch.views">
             <tab-heading>
-                <span>{{view.name}}</span> <i class="glyphicon glyphicon-remove" ng-click="removeSearch($event, $index)"></i> <!-- the tab close button -->
+                <span>{{view.name}}</span> <i class="glyphicon glyphicon-remove" ng-show="view.name!='All PDUs'" ng-click="removeSearch($event, $index)"></i> <!-- the tab close button -->
             </tab-heading>
             <div pdu-view view="view"></div>
         </tab>

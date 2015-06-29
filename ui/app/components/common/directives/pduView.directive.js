@@ -20,12 +20,7 @@ define([], function() {
                 view: "="
             },
             controller:  function($scope) {
-                //$scope.totalItems = 64;
-                //scope.currentPage = 4;
-
                 $scope.maxPagesVisible = 5;
-                //$scope.bigTotalItems = 175;
-                //$scope.bigCurrentPage = 1;
 
                 $scope.setPage = function (page) {
                     $scope.view.query.currentPage = pageNo;

@@ -17,7 +17,7 @@ define([], function() {
         };
 
 
-        $scope.pduSearch = svcDiscribe.pduQueries('inspector');
+        $scope.pduSearch = svcDiscribe.pduQuerySet('inspector');
 
         $scope.addSearch = function(entityId) {
             var searchName;
@@ -54,5 +54,8 @@ define([], function() {
             // No recording, force selection
             $location.path('/');
         }
+
+        $scope.$on("$destroy", function() {
+        });
     }
 });

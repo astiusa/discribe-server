@@ -412,7 +412,7 @@ define(['bower_components/d3/d3.min'], function(d3) {
             return d.promise;
         };
 
-        var PduQueries = function(name) {
+        var PduQuerySet = function(name) {
             /* Collection of PduQueries */
             var self = this;
 
@@ -438,12 +438,12 @@ define(['bower_components/d3/d3.min'], function(d3) {
             };
         };
 
-        var _pduQueries = {};
-        service.pduQueries = function (name) {
-            var queries = _pduQueries[name];
+        var _pduQuerySet = {};
+        service.pduQuerySet = function (name) {
+            var queries = _pduQuerySet[name];
             if (!queries) {
-                queries = new PduQueries(name);
-                _pduQueries[name] = queries;
+                queries = new PduQuerySet(name);
+                _pduQuerySet[name] = queries;
             }
             return queries;
         };
@@ -609,6 +609,15 @@ define(['bower_components/d3/d3.min'], function(d3) {
                 },
                 options
             );
+        };
+
+        service.shutdown = function() {
+            angular.forEach(_pduQuerySet, function(querySet) {
+                angular.forEach(querySet.views, function(view) {
+                    // Remove server side search cache
+                    view.query.delete();
+                });
+            });
         };
 
         return service;
