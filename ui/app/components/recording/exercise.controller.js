@@ -6,11 +6,11 @@ define([], function() {
 
     'use strict';
 
-    var deps = ['$scope', 'svcDiscribe'];
+    var deps = ['$scope', '$location', 'svcDiscribe'];
 
     return {exerciseCtrl: deps.concat(factory)};
 
-    function factory($scope, svcDiscribe) {
+    function factory($scope, $location, svcDiscribe) {
         $scope.current = svcDiscribe.state;
         $scope.discribe = {};
         $scope.discribe.exercises = [];
@@ -36,6 +36,12 @@ define([], function() {
             update();
         });
 
-        update();
+        if (!$scope.current.recordingId) {
+            // No recording, force selection
+            $location.path('/');
+        } else {
+
+            update();
+        }
     }
 });

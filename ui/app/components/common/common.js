@@ -9,6 +9,7 @@ define([
         './directives/radioPduCounts.directive',
         './directives/sortableCol.directive',
         './directives/titleBar.directive',
+        './directives/pduView.directive',
 
         './filters/formatDateRange.filter',
         './filters/formatDateTime.filter',
@@ -33,6 +34,7 @@ define([
         radioPduCountsDirective,
         sortableColDirective,
         titleBarDirective,
+        pduViewDirective,
 
         formatDateRangeFilter,
         formatDateTimeFilter,
@@ -61,6 +63,7 @@ define([
         module.directive(radioPduCountsDirective);
         module.directive(sortableColDirective);
         module.directive(titleBarDirective);
+        module.directive(pduViewDirective);
 
         module.filter(formatDateRangeFilter);
         module.filter(formatDateTimeFilter);

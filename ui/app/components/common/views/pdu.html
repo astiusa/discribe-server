@@ -1,10 +1,10 @@
 <div>
-    <span ng-show="pduView.pduType">
-        <span class="h4">{{pduView.pduType|pduTypeName}} {{pduView.pduType>0 ? "PDU" : "packet"}}</span>
+    <span ng-show="view.query.pduView.pduType">
+        <span class="h4">{{view.query.pduView.pduType|pduTypeName}} {{view.query.pduView.pduType>0 ? "PDU" : "packet"}}</span>
         <!--<span>&nbsp;Show Raw&nbsp;
             <input
                     type="checkbox"
-                    ng-model="pduView.showRaw"
+                    ng-model="view.query.pduView.showRaw"
                     ng-change="refresh()"
                     >
         </span>-->
@@ -12,7 +12,7 @@
 </div>
 <br>
 <div class="scroll-container">
-    <div ng-class="{'col-md-6': pduView.showRaw}">
+    <div ng-class="{'col-md-6': view.query.pduView.showRaw}">
         <script type="text/ng-template"  id="tree_item_renderer.html">
             <span>
                 <label for="field{{$index}}">{{field.name}}</label>
@@ -25,11 +25,11 @@
             </ul>
         </script>
         <ul class="pdu-view">
-            <li ng-repeat="field in pduView.fields" ng-include="'tree_item_renderer.html'"></li>
+            <li ng-repeat="field in view.query.pduView.fields" ng-include="'tree_item_renderer.html'"></li>
         </ul>
     </div>
-    <!--<div class="col-md-6" ng-show="pduView.showRaw">
-        <span ng-repeat="val in pduView.raw track by $index">
+    <!--<div class="col-md-6" ng-show="view.query.pduView.showRaw">
+        <span ng-repeat="val in view.query.pduView.raw track by $index">
             <span class="pdu-view-raw-title" ng-if="$index==0 || (($index) % 8)==0">{{$index}}:</span>
             <span class="pdu-view-raw-value">{{val}}</span>
             <br ng-if="$index!=0 && (($index+1) % 8)==0">

@@ -1,6 +1,16 @@
 <div class='inspector-table-container row'>
     <div class="col-md-6">
-        <span>Matching PDUs: {{discribe.pdus.length}}</span>
+        <pagination
+                total-items="view.query.pduCount"
+                ng-model="view.query.currentPage"
+                ng-change="pageChanged()"
+                class="pagination-sm"
+                boundary-links="true"
+                rotate="false"
+                max-size="maxPagesVisible"
+                num-pages="view.query.pageCount">
+        </pagination>
+        <pre>Page: {{view.query.currentPage}} / {{view.query.pageCount}}   <span ng-show="view.query.searching">Searching at {{view.query.position | formatDateTime}}, {{view.query.pduCount}} PDUs found</span></pre>
         <table class="table table-striped table-condensed recording pdus"
                data-ng-init="sortPredicate='header.timestamp'; sortReverse=false;">
             <thead>
@@ -28,11 +38,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-show="discribe.pdus.length==0" class="no-items"><td colspan="4" style="text-align:center"><span>No PDUs found</span></td></tr>
+            <tr ng-show="view.query.pdus.length==0" class="no-items"><td colspan="4" style="text-align:center"><span>No PDUs found</span></td></tr>
             <tr class="clickable"
-                data-ng-repeat="pdu in discribe.pdus | orderBy:sortPredicate:sortReverse"
+                data-ng-repeat="pdu in view.query.pdus | orderBy:sortPredicate:sortReverse"
                 ng-click="showPduDetail(pdu)"
-                ng-show="discribe.pdus.length>0">
+                ng-show="view.query.pdus.length>0">
                 <td>{{pdu.header.timestamp}}</td>
                 <td>{{pdu.header.srcAddress | formatIPAddr}}</td>
                 <td>{{pdu.pduType}}</td>

@@ -43,9 +43,9 @@
             <tbody>
             <tr ng-show="discribe.positions.length==0" class="no-items"><td colspan="7" style="text-align:center"><span>No Entities found</span></td></tr>
             <tr class="clickable"
-                ng-show="discribe.positions.length>0"
-                ng-dblclick="addTab(entity.entityId)"
-                data-ng-repeat="item in discribe.positions | filter:searchText | orderBy:sortPredicate:sortReverse">
+                data-ng-repeat="item in discribe.positions | filter:searchText | orderBy:sortPredicate:sortReverse"
+                ng-dblclick="addSearch(item.entityId)"
+                ng-show="discribe.positions.length>0">
                 <td><img ng-src="app/images/{{item.sideIcon}}" class="report-img" alt="{{item.sideIcon}}"/></td>
                 <td>{{item.entityId}}</td>
                 <td>{{item.marking}}</td>

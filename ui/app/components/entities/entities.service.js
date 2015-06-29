@@ -13,7 +13,12 @@ define([], function() {
     function factory($q, $filter, svcDiscribe, svcDisEnums, svcMapUtils) {
 
         var service = {};
-        
+
+        service.state = {
+            entitySummary: [],
+            positions: []
+        };
+
         service.ForceLevels = function() {
             var forceLevels = {};
 

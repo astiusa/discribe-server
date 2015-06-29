@@ -38,7 +38,7 @@
     <tr ng-show="discribe.transmissions.length==0" class="no-items"><td colspan="4" style="text-align:center"><span>No Transmissions found</span></td></tr>
     <tr class="clickable"
         data-ng-repeat="transmission in discribe.transmissions | orderBy:sortPredicate:sortReverse"
-        ng-dblclick="addTab(transmission.entityId)"
+        ng-dblclick="addSearch(transmission.entityId)"
         ng-show="discribe.transmissions.length>0">
         <!--ng-class="{selected: discribe.transmissionId==transmission.id}"-->
         <td>{{transmission.entityId  | formatEntityId}}</td>

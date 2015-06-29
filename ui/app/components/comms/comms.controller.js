@@ -6,87 +6,63 @@ define([], function() {
 
     'use strict';
 
-    var deps = ['$scope','$filter', 'svcDiscribe'];
+    var deps = ['$scope','$location','$filter', 'svcDiscribe'];
 
     return {commsCtrl: deps.concat(factory)};
 
-    function factory($scope, $filter, svcDiscribe) {
+    function factory($scope, $location, $filter, svcDiscribe) {
         $scope.current = svcDiscribe.state;
         $scope.discribe = {
             pduStats: svcDiscribe.PduStats(),
-            transmissions:[],
-            pdus:[],
-            showPdus: false
+            transmissions:[]
         };
-
-        $scope.pduView = {'fields':[], 'typeName':'', 'raw':[], 'showRaw': false};
 
         $scope.showByEntityId = function() {
-            $scope.discribe.showPdus = false;
-            $scope.discribe.transmissions.length = 0;
-            $scope.discribe.pdus.length = 0;
-            var transmissions = svcDiscribe.Transmissions($scope.current.timeSpan).query(function() {
+            if ($scope.current.recordingId) {
                 $scope.discribe.transmissions.length = 0;
-                Array.prototype.push.apply($scope.discribe.transmissions, transmissions);
-            });
-        };
-
-        $scope.showByFrequency = function() {
-            $scope.discribe.showPdus = false;
-            $scope.discribe.transmissions.length = 0;
-            $scope.discribe.pdus.length = 0;
-            var transmissions = svcDiscribe.Transmissions($scope.current.timeSpan).query(function() {
-                $scope.discribe.transmissions.length = 0;
-                Array.prototype.push.apply($scope.discribe.transmissions, transmissions);
-            });
-        };
-
-        var pduReader = new svcDiscribe.PduReader($scope.discribe.pdus);
-
-        $scope.showEntityIdPdus = function(tab) {
-            $scope.discribe.showPdus = true;
-            $scope.discribe.transmissions.length = 0;
-            $scope.discribe.pdus.length = 0;
-            var filterExpr = "entityId.site=="+tab.entityId.site+"&&"+
-                "entityId.application=="+tab.entityId.application+"&&"+
-                "entityId.entity=="+tab.entityId.entity;
-            var fields = ["header", "pduType", "pduLength", "entityId"];
-            pduReader.read($scope.current.timeSpan, filterExpr, fields, 1000);
-        };
-
-        $scope.showPduDetail = function(pdu) {
-            var pdus = svcDiscribe.PDU(pdu.id).query(function() {
-                // Should only be one ... but
-                if (pdus.length>0 && pdus[0].hasOwnProperty('pdu')) {
-                    $scope.pduView.fields.length = 0;
-                    $scope.pduView.raw.length = 0;
-                    $scope.pduView.pduType = pdu.pduType;
-                    $scope.pduView.typeName = $filter('pduTypeName')(pdu.pduType);
-
-                    Array.prototype.push.apply($scope.pduView.fields, pdus[0].pdu);
-                }
-            });
-        };
-
-        var _entityIds = {};
-        $scope.tabs = [];
-
-        $scope.removeTab = function (event, index) {
-            event.preventDefault();
-            event.stopPropagation();
-            delete _entityIds[$scope.tabs[index].name];
-            $scope.tabs.splice(index, 1);
-        };
-
-        $scope.addTab = function(entityId) {
-            var entityIdName = $filter('formatEntityId')(entityId);
-            if (!_entityIds.hasOwnProperty(entityIdName)) {
-                var item = {name: entityIdName, entityId: entityId};
-                _entityIds[entityIdName] = item;
-                $scope.tabs.push(item);
+                var transmissions = svcDiscribe.Transmissions($scope.current.timeSpan).query(function () {
+                    $scope.discribe.transmissions.length = 0;
+                    Array.prototype.push.apply($scope.discribe.transmissions, transmissions);
+                });
             }
         };
 
-        $scope.showByEntityId();
+        $scope.showByFrequency = function() {
+            $scope.discribe.transmissions.length = 0;
+            var transmissions = svcDiscribe.Transmissions($scope.current.timeSpan).query(function() {
+                $scope.discribe.transmissions.length = 0;
+                Array.prototype.push.apply($scope.discribe.transmissions, transmissions);
+            });
+        };
+
+        $scope.pduSearch = svcDiscribe.pduQueries('comms');
+
+        $scope.addSearch = function(entityId) {
+            var searchName = $filter('formatEntityId')(entityId);
+
+            var timeSpan = {
+                startTimestamp: $scope.current.timeSpan.startTimestamp,
+                endTimestamp: $scope.current.timeSpan.endTimestamp};
+            var filterExpr = "entityId.site=="+entityId.site+"&&"+
+                "entityId.application=="+entityId.application+"&&"+
+                "entityId.entity=="+entityId.entity;
+            var fields = ["header", "pduType", "pduLength", "entityId"];
+            var pageSize = 100;
+
+            $scope.pduSearch.add(searchName, timeSpan, filterExpr, fields, pageSize, entityId);
+        };
+
+        $scope.removeSearch = function (event, index) {
+            event.preventDefault();
+            event.stopPropagation();
+            $scope.pduSearch.remove(index);
+        };
+
+        if ($scope.current.recordingId) {
+            $scope.showByEntityId();
+        } else {
+            // No recording, force selection
+            $location.path('/');
+        }
     }
 });

@@ -15,7 +15,7 @@ define([], function() {
         $scope.discribe = svcDiscribe.state;
         $scope.changeLocation = function(page) {
             $scope.location.path = page;
-            $location.path(page)
+            $location.path(page);
         };
     }
 });

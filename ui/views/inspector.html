@@ -5,13 +5,11 @@
          time-span="current.timeSpan">
     </div>
     <tabset class="comms">
-        <tab heading="By EntityID" select="showAllPdus()">
-            <!--<div ng-include src="'app/components/inspector/views/allPdus.html'"></div>-->
-        </tab>
-        <tab data-ng-repeat="tab in tabs" select="showEntityIdPdus(tab)">
+        <tab data-ng-repeat="view in pduSearch.views">
             <tab-heading>
-                <span>{{tab.name}}</span> <i class="glyphicon glyphicon-remove" ng-click="removeTab($event, $index)"></i> <!-- the tab close button -->
+                <span>{{view.name}}</span> <i class="glyphicon glyphicon-remove" ng-click="removeSearch($event, $index)"></i> <!-- the tab close button -->
             </tab-heading>
+            <div pdu-view view="view"></div>
         </tab>
     </tabset>
     <div ng-show="discribe.showPdus" ng-include src="'app/components/common/views/pduView.html'"></div>

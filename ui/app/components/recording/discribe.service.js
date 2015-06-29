@@ -6,11 +6,11 @@ define(['bower_components/d3/d3.min'], function(d3) {
 
     'use strict';
 
-    var deps = ['$resource','$q', '$timeout'];
+    var deps = ['$resource', '$http', '$q', '$timeout', '$filter'];
 
     return {svcDiscribe: deps.concat(factory)};
 
-    function factory($resource, $q, $timeout) {
+    function factory($resource, $http, $q, $timeout, $filter) {
         var options = {stripTrailingSlashes:false};
         var service = {};
 
@@ -126,7 +126,8 @@ define(['bower_components/d3/d3.min'], function(d3) {
             server: 'http://localhost:3000/',
             recordingId: null,
             exerciseId: null,
-            timeSpan: service.TimeSpan()
+            timeSpan: service.TimeSpan(),
+            queries: {}
         };
 
         service.selectRecording = function(recording) {
@@ -357,6 +358,217 @@ define(['bower_components/d3/d3.min'], function(d3) {
             );
         };
 
+        service.getSearchStatus = function(sid) {
+            var d = $q.defer();
+            try {
+                var url = service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/searches/'+sid;
+                $http.get(url)
+                    .success(function (data) {
+                        d.resolve(data.status);
+                    })
+                    .error(function (data, status) {
+                        d.reject(new Error("Failed to get search status: "+ status));
+                    });
+            }
+            catch (err) {
+                d.reject(err);
+            }
+            return d.promise;
+        };
+
+        service.searchResults = function(sid, page) {
+            var d = $q.defer();
+            try {
+                var url = service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/searches/'+sid+"/"+page;
+                $http.get(url)
+                    .success(function (data) {
+                        d.resolve(data.pdus);
+                    })
+                    .error(function (data, status) {
+                        d.reject(new Error("Failed to get search results: "+ status));
+                    });
+            }
+            catch (err) {
+                d.reject(err);
+            }
+            return d.promise;
+        };
+
+        service.removeSearch = function(sid) {
+            var d = $q.defer();
+            try {
+                var url = service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/searches/'+sid;
+                $http.delete(url)
+                    .success(function (data) {
+                        d.resolve(data.sid);
+                    })
+                    .error(function (data, status) {
+                        d.reject(new Error("Failed to delete search: "+ status));
+                    });
+            }
+            catch (err) {
+                d.reject(err);
+            }
+            return d.promise;
+        };
+
+        var PduQueries = function(name) {
+            /* Collection of PduQueries */
+            var self = this;
+
+            self.name = name;
+            self.views = [];
+            var _views = {};
+
+            self.add = function(searchName, timeSpan, filterExpr, fields, pageSize, entityId) {
+                if (!_views.hasOwnProperty(searchName)) {
+                    service.queryPdus(timeSpan, filterExpr, fields, pageSize, entityId).then(function(pduQuery) {
+                        var view = {name: searchName, query: pduQuery};
+                        _views[searchName] = view;
+                        self.views.push(view);
+                    });
+                }
+            };
+
+            self.remove = function(index) {
+                var pduSearch = _views[self.views[index].name].query;
+                pduSearch.delete();
+                delete _views[self.views[index].name];
+                self.views.splice(index, 1);
+            };
+        };
+
+        var _pduQueries = {};
+        service.pduQueries = function (name) {
+            var queries = _pduQueries[name];
+            if (!queries) {
+                queries = new PduQueries(name);
+                _pduQueries[name] = queries;
+            }
+            return queries;
+        };
+
+        var PduQuery = function(sid, pageSize) {
+            /* Query object that manages a server side PDU search cache. On starting a search query, search status is
+               polled until the search has completed, which may take some time. Search status returns current
+               search metrics, including the count of pdus that match the search criteria and available pages
+               of results. Results are returned by querying by page.
+             */
+            var self = this;
+
+            self.sid = sid;
+            self.pageSize = pageSize ? pageSize : 100;
+            self.pdus = [];
+            self.currentPage = 1;
+            self.pageCount = 0;
+            self.pduCount = 0;
+            self.position = 0;
+            self.searching = true;
+            self.hasUpdate = 0;
+
+            self.pduView = {'fields':[], 'typeName':'', 'raw':[], 'showRaw': false};
+
+            self.poll = function() {
+                if (self.searching) {
+                    service.getSearchStatus(self.sid).then(function(status) {
+                        if (status.pduCount > self.pduCount && self.currentPage===status.pageCount) {
+                            // Current page has changed
+                            self.notifyUpdate();
+                        }
+                        self.searching = status.searching;
+                        self.pageCount = status.pageCount;
+                        self.pduCount = status.pduCount;
+                        self.position = status.timestamp;
+                    });
+                    $timeout(function() {
+                        self.poll();
+                    }, 500);
+                }
+            };
+
+            self.getResults = function() {
+                if (self.pageCount > 0) {
+                    service.searchResults(self.sid, self.currentPage).then(function(pdus) {
+                        //pduArray.length = 0;
+                        //Array.prototype.push.apply(pduArray, pdus);
+                        self.pdus.length = 0;
+                        Array.prototype.push.apply(self.pdus, pdus);
+                    });
+                }
+            };
+
+            self.loadPdu = function(pdu) {
+                var pdus = service.PDU(pdu.id).query(function() {
+                    // Should only be one ... but
+                    if (pdus.length>0 && pdus[0].hasOwnProperty('pdu')) {
+                        self.pduView.fields.length = 0;
+                        self.pduView.raw.length = 0;
+                        self.pduView.pduType = pdu.pduType;
+                        self.pduView.typeName = $filter('pduTypeName')(pdu.pduType);
+
+                        Array.prototype.push.apply(self.pduView.fields, pdus[0].pdu);
+                    }
+                });
+            };
+
+            self.notifyUpdate = function() {
+                self.hasUpdate++;
+                if (self.hasUpdate > 10) {
+                    self.hasUpdate = 0;
+                }
+            };
+
+            self.delete = function() {
+                self.searching = false;
+                service.removeSearch(self.sid)
+            };
+
+            self.searching = true;
+
+            self.poll();
+        };
+
+        service.queryPdus = function(timeSpan, filterExpr, fields, pageSize, entityId) {
+            /* Request a query of PDU's that match a specified criteria. Creates an asynchronous
+               server side search cache that can be accessed by results page. Returns a PDU cache object.
+             */
+            var d = $q.defer();
+
+            var params = {
+                responseType: "json",
+                start: timeSpan.startTimestamp,
+                end: timeSpan.endTimestamp,
+                pageSize: pageSize
+            };
+
+            if (filterExpr) {
+                params.filter = encodeURIComponent(filterExpr);
+            }
+            if (fields) {
+                params.fields = encodeURIComponent(JSON.stringify(fields));
+            }
+
+            if (entityId) {
+                params.entityId = encodeURIComponent(JSON.stringify(entityId));
+            }
+
+            try {
+                var url = service.state.server+'api/discribe/recordings/'+service.state.recordingId+'/searches';
+                $http.post(url, params)
+                    .success(function (data) {
+                        var pduQuery = new PduQuery(data.sid, pageSize);
+                        d.resolve(pduQuery);
+                    })
+                    .error(function (data, status) {
+                        d.reject(new Error("Failed to get search object: "+ status));
+                    });
+            }
+            catch (err) {
+                d.reject(err);
+            }
+            return d.promise;
+        };
+
         service.PDUs = function(timeSpan, filterExpr, fields) {
             var params = {
                 start: timeSpan.startTimestamp,
@@ -398,64 +610,6 @@ define(['bower_components/d3/d3.min'], function(d3) {
                 options
             );
         };
-
-        service.PduReader = function(pdus) {
-            var self = this;
-            self.pdus = pdus;
-            self.count = 0;
-            self.filter = null;
-            self.fields = null;
-
-            self.timeSpan = null;
-            self.readSpan = {startTimestamp:0, endTimestamp:0};
-
-            var readDelta = 1;
-            var dataComplete = false;
-            var readInProgress = false;
-
-            var checkRead = function() {
-                if (!dataComplete && !readInProgress) {
-                    readInProgress = true;
-                    var pdus = service.PDUs(self.readSpan, self.filter, self.fields).query(function() {
-                        Array.prototype.push.apply(self.pdus, pdus);
-                        self.readSpan.startTimestamp += readDelta;
-                        self.readSpan.endTimestamp = self.readSpan.startTimestamp + readDelta -1;
-                        dataComplete = (self.pdus.length>=self.count ||
-                        self.readSpan.startTimestamp >= self.timeSpan.endTimestamp);
-                        readInProgress = false;
-                    });
-                }
-                if (!dataComplete) {
-                    $timeout(function() {
-                        checkRead();
-                    }, 500);
-                } else {
-
-                }
-            };
-
-            self.read = function(timeSpan, filter, fields, count) {
-                self.pdus.length = 0;
-                self.timeSpan = timeSpan;
-                self.readSpan.startTimestamp = timeSpan.startTimestamp;
-                self.readSpan.endTimestamp = self.readSpan.startTimestamp + readDelta -1;
-                self.count = count;
-                self.filter = filter;
-                self.fields = (fields) ? fields : [];
-
-                dataComplete = false;
-                readInProgress = false;
-
-                checkRead();
-            };
-
-            self.cancel = function() {
-                self.pdus.length = 0;
-                dataComplete = true;
-            };
-
-        };
-
 
         return service;
     }

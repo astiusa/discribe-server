@@ -6,37 +6,29 @@ define([], function() {
 
     'use strict';
 
-    var deps = ['$scope','$filter','svcEntities','svcDiscribe'];
+    var deps = ['$scope','$location','$filter','svcEntities','svcDiscribe'];
 
     return {entitiesCtrl: deps.concat(factory)};
 
-    function factory($scope, $filter, svcEntities, svcDiscribe) {
+    function factory($scope, $location, $filter, svcEntities, svcDiscribe) {
         $scope.current = svcDiscribe.state;
-        $scope.discribe = {
-            entitySummary: [],
-            positions: [],
-            pdus:[],
-            showPdus: false
-        };
+        $scope.discribe = svcEntities.state;
+
         $scope.discribe.forceLevels = svcEntities.ForceLevels();
 
-        $scope.pduView = {'fields':[], 'typeName':'', 'raw':[], 'showRaw': false};
-
         $scope.showSummary = function() {
-            $scope.discribe.showPdus = false;
-            $scope.discribe.entitySummary.length = 0;
-            $scope.discribe.positions.length = 0;
-            $scope.discribe.pdus.length = 0;
-            var entitySummary = svcDiscribe.EntitySummary($scope.current.timeSpan).query(function() {
-                Array.prototype.push.apply($scope.discribe.entitySummary, entitySummary);
-            });
+            if ($scope.current.recordingId) {
+                $scope.discribe.entitySummary.length = 0;
+                $scope.discribe.positions.length = 0;
+                var entitySummary = svcDiscribe.EntitySummary($scope.current.timeSpan).query(function() {
+                    Array.prototype.push.apply($scope.discribe.entitySummary, entitySummary);
+                });
+            }
         };
 
         $scope.showPositions = function() {
-            $scope.discribe.showPdus = false;
             $scope.discribe.entitySummary.length = 0;
             $scope.discribe.positions.length = 0;
-            $scope.discribe.pdus.length = 0;
             var timeSpan = {
                 startTimestamp: $scope.current.timeSpan.startTimestamp,
                 lastTimeStamp: $scope.current.timeSpan.startTimestamp};
@@ -59,67 +51,46 @@ define([], function() {
                 svcEntities.updateAll();
 
                 Array.prototype.push.apply($scope.discribe.positions, svcEntities.entities.active);
-                var ccc = 1;
             });
         };
 
         $scope.showMap = function() {
-            $scope.discribe.showPdus = false;
             $scope.discribe.entitySummary.length = 0;
             $scope.discribe.positions.length = 0;
-            $scope.discribe.pdus.length = 0;
             var entitySummary = svcDiscribe.EntitySummary($scope.current.timeSpan).query(function() {
                 Array.prototype.push.apply($scope.discribe.entitySummary, entitySummary);
             });
         };
 
-        var pduReader = new svcDiscribe.PduReader($scope.discribe.pdus);
+        $scope.pduSearch = svcDiscribe.pduQueries('entities');
 
-        $scope.showEntityIdPdus = function(tab) {
-            $scope.discribe.showPdus = true;
-            $scope.discribe.entitySummary.length = 0;
-            $scope.discribe.pdus.length = 0;
-            var filterExpr = "entityId.site=="+tab.entityId.site+"&&"+
-                "entityId.application=="+tab.entityId.application+"&&"+
-                "entityId.entity=="+tab.entityId.entity;
+        $scope.addSearch = function(entityId) {
+            var searchName = $filter('formatEntityId')(entityId);
+
+            var timeSpan = {
+                startTimestamp: $scope.current.timeSpan.startTimestamp,
+                endTimestamp: $scope.current.timeSpan.endTimestamp};
+            var filterExpr = "entityId.site=="+entityId.site+"&&"+
+                "entityId.application=="+entityId.application+"&&"+
+                "entityId.entity=="+entityId.entity;
             var fields = ["header", "pduType", "pduLength", "entityId"];
-            pduReader.read($scope.current.timeSpan, filterExpr, fields, 1000);
+            var pageSize = 100;
+
+            $scope.pduSearch.add(searchName, timeSpan, filterExpr, fields, pageSize, entityId);
         };
 
-        $scope.showPduDetail = function(pdu) {
-            var pdus = svcDiscribe.PDU(pdu.id).query(function() {
-                // Should only be one ... but
-                if (pdus.length>0 && pdus[0].hasOwnProperty('pdu')) {
-                    $scope.pduView.fields.length = 0;
-                    $scope.pduView.raw.length = 0;
-                    $scope.pduView.pduType = pdu.pduType;
-                    $scope.pduView.typeName = $filter('pduTypeName')(pdu.pduType);
-
-                    Array.prototype.push.apply($scope.pduView.fields, pdus[0].pdu);
-                }
-            });
-        };
-
-        var _entityIds = {};
-        $scope.tabs = [];
-
-        $scope.removeTab = function (event, index) {
+        $scope.removeSearch = function (event, index) {
             event.preventDefault();
             event.stopPropagation();
-            delete _entityIds[$scope.tabs[index].name];
-            $scope.tabs.splice(index, 1);
+            $scope.pduSearch.remove(index);
         };
 
-        $scope.addTab = function(entityId) {
-            var entityIdName = $filter('formatEntityId')(entityId);
-            if (!_entityIds.hasOwnProperty(entityIdName)) {
-                var item = {name: entityIdName, entityId: entityId};
-                _entityIds[entityIdName] = item;
-                $scope.tabs.push(item);
-            }
-        };
-
-        $scope.showSummary()
+        if ($scope.current.recordingId) {
+            $scope.showSummary();
+        } else {
+            // No recording, force selection
+            $location.path('/');
+        }
     }
 });
 

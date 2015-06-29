@@ -39,7 +39,7 @@
     <tr ng-show="discribe.entitySummary.length==0" class="no-items"><td colspan="4" style="text-align:center"><span>No Entities found</span></td></tr>
     <tr class="clickable"
         data-ng-repeat="entity in discribe.entitySummary | orderBy:sortPredicate:sortReverse"
-        ng-dblclick="addTab(entity.entityId)"
+        ng-dblclick="addSearch(entity.entityId)"
         ng-show="discribe.entitySummary.length>0">
         <td><img ng-src="images/{{entity.sideIcon}}" class="report-img" alt="{{entity.sideIcon}}"/></td>
         <td>{{entity.entityId | formatEntityId}}</td>
